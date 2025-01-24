@@ -1,8 +1,13 @@
-'use client';
+"use client";
 import { useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { AiOutlineEye, AiOutlineEyeInvisible, AiOutlineMail, AiOutlineLock } from "react-icons/ai";
+import {
+  AiOutlineEye,
+  AiOutlineEyeInvisible,
+  AiOutlineMail,
+  AiOutlineLock,
+} from "react-icons/ai";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
@@ -44,9 +49,10 @@ const SignIn = () => {
       }
 
       const response = await res.json();
-      console.log(response);
+      // Store the token in local storage
+      localStorage.setItem("authToken", response.access_token); // Assuming response.token contains the JWT
 
-      // Notify success and redirect to the dashboard
+      // Notify success
       toast.success("Sign In Successful! Redirecting...");
       setTimeout(() => {
         router.push("/dashboard"); // Update this route as per your app
@@ -58,84 +64,83 @@ const SignIn = () => {
 
   return (
     <div className="min-h-screen bg-gradient-to-r bg-gray-200 flex items-center justify-center">
-  <div className="bg-white p-8 rounded-lg shadow-xl max-w-md w-full transform transition-all duration-500 hover:scale-105">
-    <h2 className="text-2xl font-semibold text-center text-blue-600 mb-6 animate__animated animate__fadeIn animate__delay-1s">
-      Sign In
-    </h2>
+      <div className="bg-white p-8 rounded-lg shadow-xl max-w-md w-full transform transition-all duration-500 hover:scale-105">
+        <h2 className="text-2xl font-semibold text-center text-blue-600 mb-6 animate__animated animate__fadeIn animate__delay-1s">
+          Sign In
+        </h2>
 
-    <form onSubmit={handleSubmit}>
-      <div className="mb-4 relative">
-        <label htmlFor="email" className="block text-gray-700">
-          Email
-        </label>
-        <div className="relative">
-          <AiOutlineMail className="absolute mt-1 left-3 top-1/2 transform -translate-y-1/2 text-gray-500" />
-          <input
-            type="email"
-            id="email"
-            name="email"
-            value={formData.email}
-            onChange={handleChange}
-            className="w-full pl-10 pr-4 py-3 mt-2 border rounded-md text-gray-700 focus:ring-2 focus:ring-blue-500 focus:outline-none transition-all"
-            placeholder="Enter your email"
-            required
-          />
-        </div>
-      </div>
+        <form onSubmit={handleSubmit}>
+          <div className="mb-4 relative">
+            <label htmlFor="email" className="block text-gray-700">
+              Email
+            </label>
+            <div className="relative">
+              <AiOutlineMail className="absolute mt-1 left-3 top-1/2 transform -translate-y-1/2 text-gray-500" />
+              <input
+                type="email"
+                id="email"
+                name="email"
+                value={formData.email}
+                onChange={handleChange}
+                className="w-full pl-10 pr-4 py-3 mt-2 border rounded-md text-gray-700 focus:ring-2 focus:ring-blue-500 focus:outline-none transition-all"
+                placeholder="Enter your email"
+                required
+              />
+            </div>
+          </div>
 
-      <div className="mb-6 relative">
-        <label htmlFor="password" className="block text-gray-700">
-          Password
-        </label>
-        <div className="relative">
-          <AiOutlineLock className="absolute left-3 mt-1 top-1/2 transform -translate-y-1/2 text-gray-500" />
-          <input
-            type={passwordVisible ? "text" : "password"}
-            id="password"
-            name="password"
-            value={formData.password}
-            onChange={handleChange}
-            className="w-full pl-10 pr-10 py-3 mt-2 border rounded-md text-gray-700 focus:ring-2 focus:ring-blue-500 focus:outline-none transition-all"
-            placeholder="Enter your password"
-            required
-          />
+          <div className="mb-6 relative">
+            <label htmlFor="password" className="block text-gray-700">
+              Password
+            </label>
+            <div className="relative">
+              <AiOutlineLock className="absolute left-3 mt-1 top-1/2 transform -translate-y-1/2 text-gray-500" />
+              <input
+                type={passwordVisible ? "text" : "password"}
+                id="password"
+                name="password"
+                value={formData.password}
+                onChange={handleChange}
+                className="w-full pl-10 pr-10 py-3 mt-2 border rounded-md text-gray-700 focus:ring-2 focus:ring-blue-500 focus:outline-none transition-all"
+                placeholder="Enter your password"
+                required
+              />
+              <button
+                type="button"
+                onClick={() => setPasswordVisible(!passwordVisible)}
+                className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-500 transition-transform duration-300"
+              >
+                {passwordVisible ? (
+                  <AiOutlineEyeInvisible className="h-5 w-5 mt-3" />
+                ) : (
+                  <AiOutlineEye className="h-5 w-5 mt-3" />
+                )}
+              </button>
+            </div>
+          </div>
+
           <button
-            type="button"
-            onClick={() => setPasswordVisible(!passwordVisible)}
-            className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-500 transition-transform duration-300"
+            type="submit"
+            className="w-full px-4 py-3 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition transform duration-300 hover:scale-105"
           >
-            {passwordVisible ? (
-              <AiOutlineEyeInvisible className="h-5 w-5 mt-3" />
-            ) : (
-              <AiOutlineEye className="h-5 w-5 mt-3" />
-            )}
+            Sign In
           </button>
+        </form>
+
+        <div className="mt-6 text-center">
+          <p className="text-gray-700">
+            Don't have an account?{" "}
+            <Link href="/sign-up">
+              <h1 className="text-blue-600 hover:underline transition-all">
+                Sign Up
+              </h1>
+            </Link>
+          </p>
         </div>
       </div>
 
-      <button
-        type="submit"
-        className="w-full px-4 py-3 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition transform duration-300 hover:scale-105"
-      >
-        Sign In
-      </button>
-    </form>
-
-    <div className="mt-6 text-center">
-      <p className="text-gray-700">
-        Don't have an account?{" "}
-        <Link href="/sign-up">
-          <h1 className="text-blue-600 hover:underline transition-all">
-            Sign Up
-          </h1>
-        </Link>
-      </p>
+      <ToastContainer />
     </div>
-  </div>
-
-  <ToastContainer />
-</div>
-
   );
 };
 
