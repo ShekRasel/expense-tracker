@@ -2,7 +2,7 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { Button } from "@/components/ui/button";
-import * as XLSX from 'xlsx'; // Import the xlsx library
+import * as XLSX from 'xlsx';
 
 function ExpenseReport() {
   const [report, setReport] = useState(null);
@@ -20,6 +20,7 @@ function ExpenseReport() {
         },
       });
       setReport(response.data);
+      console.log(response.data);
     } catch (err) {
       setError("Failed to fetch expense report. Please try again later.");
     } finally {
@@ -49,6 +50,10 @@ function ExpenseReport() {
   useEffect(() => {
     fetchExpenseReport();
   }, []);
+
+  const totalSpending = report?.totalSpending || 0;
+  const expenseGoal = report?.total_expense_goal || 0;  // Update the field name here
+  const isOverBudget = totalSpending > expenseGoal;
 
   return (
     <div className="min-h-screen bg-gray-50 p-6">
@@ -99,8 +104,16 @@ function ExpenseReport() {
           </div>
 
           <div className="mt-6 text-lg font-bold text-gray-700">
-            Total Spending: <span className="text-blue-500">BDT {report.totalSpending}</span>
+            Total Spending: <span className={`text-${isOverBudget ? 'red' : 'blue'}-500`}>BDT {totalSpending}</span>
           </div>
+          <div className="text-lg font-bold text-gray-700">
+            Expense Goal: <span className="text-gray-500">BDT {expenseGoal}</span>
+          </div>
+          {isOverBudget && (
+            <div className="mt-2 text-red-500 font-semibold">
+              You have exceeded your expense goal!
+            </div>
+          )}
         </div>
       ) : (
         <div className="text-center text-gray-500">No expense report available.</div>
