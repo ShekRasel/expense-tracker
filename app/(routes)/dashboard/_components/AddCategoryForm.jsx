@@ -34,7 +34,7 @@ const AddCategoryForm = ({ onCategoryAdded }) => {
 
       const data = await response.json();
 
-      console.log("Response Data:", data);
+
 
       if (response.ok) {
         setMessage("Category and price added successfully!");

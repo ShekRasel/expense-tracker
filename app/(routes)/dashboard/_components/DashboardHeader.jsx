@@ -32,6 +32,7 @@ function DashboardHeader({ toggleSidebar }) {
           email: data.email,
           role: data.role, // Added role
         });
+        localStorage.setItem("userName", data.fullname);
       })
       .catch(error => {
         console.error("Error fetching user info:", error);
