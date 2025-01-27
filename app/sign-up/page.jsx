@@ -3,7 +3,7 @@
 import { useState } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
-import { AiOutlineEye, AiOutlineEyeInvisible, AiOutlineUser, AiOutlineMail, AiOutlineLock } from 'react-icons/ai'; // Icons for password visibility toggle
+import { AiOutlineEye, AiOutlineEyeInvisible, AiOutlineUser, AiOutlineMail, AiOutlineLock, AiOutlineHome } from 'react-icons/ai'; // Icons for password visibility toggle
 import { toast, ToastContainer } from 'react-toastify'; // Toast notifications
 import 'react-toastify/dist/ReactToastify.css'; // Import toast styles
 
@@ -87,8 +87,16 @@ const SignUp = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-r bg-gray-200 flex items-center justify-center">
+    <div className="min-h-screen bg-gradient-to-r bg-gray-300 flex items-center justify-center">
       <div className="bg-white p-8 rounded-lg shadow-xl max-w-md w-full transform transition-all duration-500 hover:scale-105">
+        {/* Back Home Button */}
+        <button
+          onClick={() => router.push('/')}
+          className="absolute top-6 left-6 text-gray-500 hover:text-gray-800 transition duration-300"
+        >
+          <AiOutlineHome className="h-6 w-6" />
+        </button>
+
         <h2 className="text-2xl font-semibold text-center text-blue-600 mb-6 animate__animated animate__fadeIn animate__delay-1s">
           Sign Up
         </h2>

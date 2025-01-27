@@ -2,12 +2,7 @@
 import { useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import {
-  AiOutlineEye,
-  AiOutlineEyeInvisible,
-  AiOutlineMail,
-  AiOutlineLock,
-} from "react-icons/ai";
+import { AiOutlineEye, AiOutlineEyeInvisible, AiOutlineMail, AiOutlineLock, AiOutlineHome } from "react-icons/ai"; // Added the home icon
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
@@ -65,6 +60,16 @@ const SignIn = () => {
   return (
     <div className="min-h-screen bg-gradient-to-r bg-gray-200 flex items-center justify-center">
       <div className="bg-white p-8 rounded-lg shadow-xl max-w-md w-full transform transition-all duration-500 hover:scale-105">
+        
+        {/* Back to Home Button */}
+        <div className="absolute top-4 left-4">
+          <Link href="/">
+            <button className="text-blue-600 p-2 hover:bg-blue-100 rounded-full transition-all">
+              <AiOutlineHome className="h-6 w-6" />
+            </button>
+          </Link>
+        </div>
+
         <h2 className="text-2xl font-semibold text-center text-blue-600 mb-6 animate__animated animate__fadeIn animate__delay-1s">
           Sign In
         </h2>

@@ -81,7 +81,7 @@ export default function BudgetForm() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-r from-blue-50 to-gray-100 flex justify-center items-center p-4">
+    <div className="h-auto bg-gradient-to-r  flex justify-center items-center p-4">
       <div className="w-full max-w-2xl bg-white rounded-lg shadow-lg p-6 sm:p-10">
         <h2 className="text-3xl font-extrabold text-center mb-6 text-gray-800">
           Budget Form
