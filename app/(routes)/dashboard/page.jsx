@@ -138,7 +138,7 @@ function Page() {
               <div className="flex items-center space-x-4">
                 <FaChartPie size={40} className="text-blue-500" />
                 <div>
-                  <h2 className="text-2xl font-bold">{category}</h2>
+                  <h2 className="text-xl font-bold">{category}</h2>
                   <p className="text-lg">BDT {price}</p>
                 </div>
               </div>

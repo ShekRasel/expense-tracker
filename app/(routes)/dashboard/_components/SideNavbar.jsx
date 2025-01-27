@@ -20,7 +20,7 @@ function SideNavbar({ isSidebarOpen, toggleSidebar }) {
   }, [path]);
 
   return (
-    <div className= 'md:pt-16'>
+    <div className= 'md:pt-16 shadow-lg'>
       {/* Mobile Sidebar */}
       {isSidebarOpen && (
         <div className="fixed inset-0 z-50 flex md:hidden">
