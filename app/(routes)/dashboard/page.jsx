@@ -4,17 +4,17 @@ import { useRouter } from "next/navigation";
 import axios from "axios";
 import { FaMoneyBillWave, FaChartPie } from "react-icons/fa";
 import { AiOutlineFund, AiOutlineWarning } from "react-icons/ai"; 
-import { Bar } from 'react-chartjs-2'; // Import Bar chart from react-chartjs-2
-import { Chart as ChartJS, BarElement, Title, Tooltip, Legend, CategoryScale, LinearScale } from 'chart.js'; // Import necessary Chart.js components
-import { jwtDecode } from "jwt-decode"; // Import jwt-decode for decoding the token
+import { Bar } from 'react-chartjs-2';
+import { Pie } from 'react-chartjs-2'; // Import Pie chart
+import { Chart as ChartJS, BarElement, Title, Tooltip, Legend, CategoryScale, LinearScale, ArcElement } from 'chart.js';
+import { jwtDecode } from "jwt-decode"; 
 
-// Register Chart.js components
-ChartJS.register(BarElement, Title, Tooltip, Legend, CategoryScale, LinearScale);
+ChartJS.register(BarElement, Title, Tooltip, Legend, CategoryScale, LinearScale, ArcElement); // Register ArcElement for Pie Chart
 
 function Page() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
-  const [userName, setUserName] = useState(""); // State to store user name
-  const [expenses, setExpenses] = useState(null); // State for expense data
+  const [userName, setUserName] = useState(""); 
+  const [expenses, setExpenses] = useState(null); 
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
@@ -22,25 +22,21 @@ function Page() {
 
   useEffect(() => {
     const token = localStorage.getItem("authToken");
-    const storedUserName = localStorage.getItem("userName"); // Assuming name is stored in localStorage
+    const storedUserName = localStorage.getItem("userName");
 
     if (!token) {
       router.push("/sign-in");
     } else {
-      // Decode the token to check if it's expired
       const decodedToken = jwtDecode(token);
-      const currentTime = Date.now() / 1000; // Current time in seconds
+      const currentTime = Date.now() / 1000;
 
       if (decodedToken.exp < currentTime) {
-        // If the token is expired, redirect to the login page
         localStorage.removeItem("authToken");
         localStorage.removeItem("userName");
         router.push("/sign-in");
       } else {
         setIsAuthenticated(true);
-        setUserName(storedUserName || "Guest"); // Set the user's name
-
-        // Fetch expense report
+        setUserName(storedUserName || "Guest");
         fetchExpenseReport(token);
       }
     }
@@ -65,16 +61,34 @@ function Page() {
     }
   };
 
-  // Prepare Bar chart data
   const barChartData = {
     labels: expenses ? Object.keys(expenses.data) : [],
     datasets: [
       {
         label: 'Expense Categories', 
         data: expenses ? Object.values(expenses.data) : [],
-        backgroundColor: '#4CAF50', // Cool green bar color
+        backgroundColor: '#4CAF50', 
         borderColor: '#388E3C',
         borderWidth: 1,
+      },
+    ],
+  };
+
+  const getRandomColor = () => {
+    const letters = '0123456789ABCDEF';
+    let color = '#';
+    for (let i = 0; i < 6; i++) {
+      color += letters[Math.floor(Math.random() * 16)];
+    }
+    return color;
+  };
+
+  const pieChartData = {
+    labels: expenses ? Object.keys(expenses.data) : [],
+    datasets: [
+      {
+        data: expenses ? Object.values(expenses.data) : [],
+        backgroundColor: expenses ? Object.keys(expenses.data).map(() => getRandomColor()) : [],
       },
     ],
   };
@@ -88,50 +102,45 @@ function Page() {
   }
 
   return (
-    <div className="p-8 min-h-screen">
-      <h1 className="font-bold text-3xl text-center mb-4 text-gray-800">Hi, {userName}! 😀</h1>
-      <p className="text-center text-gray-500 mb-8">Here's what's happening with you:</p>
+    <div className="xl:px-8 2xl:px-16 min-h-screen">
+      <h1 className="font-medium text-2xl text-center mb-4 text-gray-700">
+        Hi, {userName ? userName : "Loading..."}! 😀
+      </h1>
+      <p className="text-center text-gray-600 mb-8">Here's your expense report:</p>
 
       {loading ? (
-        <div className="text-center text-blue-500 font-semibold mt-4">Loading your expense report...</div>
+        <div className="text-center text-blue-500 font-medium mt-4">Loading your expense report...</div>
       ) : error ? (
-        <div className="text-center text-red-500 font-semibold mt-4">{error}</div>
+        <div className="text-center text-red-500 font-medium mt-4">{error}</div>
       ) : expenses && expenses.data ? (
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mt-6">
-          {/* Total Spending Box */}
-          <div className="bg-blue-500 text-white p-6 rounded-lg shadow-lg">
-            <div className="flex items-center space-x-4">
-              <FaMoneyBillWave size={40} />
+        <div className="grid grid-cols-1 lg:grid-cols-2 2xl:grid-cols-3 gap-6 mt-6">
+          <div className="bg-blue-500 text-white p-5 rounded-lg shadow-md">
+            <div className="flex items-center space-x-3">
+              <FaMoneyBillWave size={30} />
               <div>
-                <h2 className="text-2xl font-bold">Total Spending</h2>
+                <h2 className="text-xl font-medium">Total Spending</h2>
                 <p className="text-lg">BDT {expenses.totalSpending}</p>
               </div>
             </div>
           </div>
 
-          {/* Expense Goal Box */}
-          <div className="bg-green-500 text-white p-6 rounded-lg shadow-lg">
-            <div className="flex items-center space-x-4">
-              <AiOutlineFund size={40} />
+          <div className="bg-green-500 text-white p-5 rounded-lg shadow-md">
+            <div className="flex items-center space-x-3">
+              <AiOutlineFund size={30} />
               <div>
-                <h2 className="text-2xl font-bold">Expense Goal</h2>
+                <h2 className="text-xl font-medium">Expense Goal</h2>
                 <p className="text-lg">BDT {expenses.total_expense_goal}</p>
               </div>
             </div>
           </div>
 
-          {/* Over Budget Box */}
           <div
-            className={`p-6 rounded-lg shadow-lg ${
-              expenses.totalSpending > expenses.total_expense_goal
-                ? "bg-red-500 text-white"
-                : "bg-green-400 text-white"
-            }`}
+            className={`p-5 rounded-lg shadow-md ${expenses.totalSpending > expenses.total_expense_goal ? "bg-red-400 text-white" : "bg-green-400 text-white"}`}
           >
-            <div className="flex items-center space-x-4">
-              <AiOutlineWarning size={40} />
+            <div className="flex items-center space-x-3">
+              <AiOutlineWarning size={30} />
               <div>
-                <h2 className="text-2xl font-bold">Budget Status</h2>
+                <h2 className="text-xl font-medium">Budget Status</h2>
                 {expenses.totalSpending > expenses.total_expense_goal ? (
                   <p className="text-lg">Over Budget!</p>
                 ) : (
@@ -141,78 +150,77 @@ function Page() {
             </div>
           </div>
 
-          {/* Expense Categories */}
           {Object.entries(expenses.data).map(([category, price], index) => (
-            <div
-              key={index}
-              className="bg-gray-200 text-gray-800 p-6 rounded-lg shadow-lg"
-            >
-              <div className="flex items-center space-x-4">
-                <FaChartPie size={40} className="text-blue-500" />
+            <div key={index} className="bg-gray-200 text-gray-800 p-5 rounded-md shadow-md">
+              <div className="flex items-center space-x-3">
+                <FaChartPie size={30} className="text-blue-500" />
                 <div>
-                  <h2 className="text-xl font-bold">{category}</h2>
-                  <p className="text-lg">BDT {price}</p>
+                  <h2 className="text-lg font-medium">{category}</h2>
+                  <p className="text-sm">BDT {price}</p>
                 </div>
               </div>
             </div>
           ))}
         </div>
       ) : (
-        <div className="text-center text-gray-500 mt-4">No expense data available.</div>
+        <div className="text-center text-gray-600 mt-4">No expense data available.</div>
       )}
 
-      {/* Bar Chart Section - positioned at the start */}
+      {/* Bar and Pie Chart Section */}
       {expenses && expenses.data && (
-        <div className="mt-10">
-          <h2 className="text-2xl font-bold text-gray-800 text-left mb-4">Expense Breakdown by Category</h2>
-          <div className="flex justify-start">
-            <Bar 
-              data={barChartData} 
-              options={{ 
-                responsive: true,
-                maintainAspectRatio: false,
-                plugins: {
-                  title: {
-                    display: true,
-                    text: 'Expense Breakdown',
-                    font: {
-                      size: 24,
-                      weight: 'bold',
+        <div className="mt-10 grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div className="bg-white md:p-6 rounded-md shadow-md">
+            <h2 className="text-xl font-medium text-gray-800 text-left mb-4">Expense Breakdown by Category</h2>
+            <div className="w-full" style={{ height: '300px' }}>
+              <Bar
+                data={barChartData}
+                options={{
+                  responsive: true,
+                  maintainAspectRatio: true,
+                  plugins: {
+                    title: {
+                      display: true,
+                      text: 'Expense Breakdown',
+                      font: { size: 20, weight: 'bold' },
+                    },
+                    tooltip: {
+                      backgroundColor: '#000',
+                      titleColor: '#fff',
+                      bodyColor: '#fff',
+                      borderColor: '#fff',
+                      borderWidth: 1,
                     },
                   },
-                  tooltip: {
-                    backgroundColor: '#000',
-                    titleColor: '#fff',
-                    bodyColor: '#fff',
-                    borderColor: '#fff',
-                    borderWidth: 1,
-                  },
-                },
-                scales: {
-                  x: {
-                    grid: {
-                      display: false,
+                  scales: {
+                    x: {
+                      grid: { display: false },
+                      ticks: { font: { size: 12 } },
                     },
-                    ticks: {
-                      font: {
-                        size: 14,
-                      },
+                    y: {
+                      grid: { color: '#ddd' },
+                      ticks: { font: { size: 12 } },
                     },
                   },
-                  y: {
-                    grid: {
-                      color: '#ddd',
-                    },
-                    ticks: {
-                      font: {
-                        size: 14,
-                      },
-                    },
+                }}
+              />
+            </div>
+          </div>
+
+          <div className="bg-white p-6 justify-center rounded-md shadow-md">
+            <h2 className="text-xl font-medium text-gray-800 text-left mb-4">Expense Distribution</h2>
+            <div className="w-full flex justify-center" style={{ height: '300px' }}>
+              <Pie
+                data={pieChartData}
+                options={{
+                  responsive: true,
+                  maintainAspectRatio: true,
+                  plugins: {
+                    title: { display: true, text: 'Expense Distribution' },
+                    tooltip: { backgroundColor: '#000', titleColor: '#fff', bodyColor: '#fff' },
                   },
-                },
-              }} 
-              style={{ width: '100%', height: '400px' }} // Set height and full width for better appearance
-            />
+                }}
+              />
+            </div>
           </div>
         </div>
       )}

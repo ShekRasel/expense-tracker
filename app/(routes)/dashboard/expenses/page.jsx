@@ -119,23 +119,46 @@ function ExpenseReport() {
   const isOverBudget = totalSpending > expenseGoal;
 
   return (
-    <div className="h-auto flex  justify-center   2xl:ml-4">
-      <div className="w-full px-4 max-w-4xl bg-white rounded-xl py-10 border">
-        <ToastContainer position="top-right" autoClose={3000} /> {/* Toast Container */}
+    <div className="h-auto 2xl:ml-4">
+      <div className="w-full px-4 bg-white rounded-sm border py-4 ">
+        <ToastContainer position="top-right" autoClose={3000} />
         <h1 className="text-3xl font-bold text-gray-800 mb-6 text-center">
           Expense Report
         </h1>
-        <p className="text-gray-600 mb-6 text-center">
+        <p className="text-gray-600 mb-6 text-center ">
           View your detailed expense report along with total spending.
         </p>
 
-        <div className="flex justify-center space-x-4 mb-6">
-          <Button onClick={fetchExpenseReport} className="bg-blue-500 hover:bg-blue-600 text-white py-2 px-6 rounded-md">
-            Refresh Report
-          </Button>
-          <Button onClick={exportToExcel} className="bg-green-500 hover:bg-green-600 text-white py-2 px-6 rounded-md">
-            Export to Excel
-          </Button>
+        {/* Current Expense Situation Section */}
+        <div className="flex justify-between items-center 2xl:px-20 mb-6">
+          <div>
+            <div className="text-lg font-bold text-start text-gray-800 mb-2">
+              Total Spending: <span className="text-blue-500">BDT {totalSpending}</span>
+            </div>
+            {expenseGoal === 0 ? (
+              <p className="text-red-500 font-semibold">Please add a budget to track your expenses.</p>
+            ) : isOverBudget ? (
+              <div className="text-red-500 font-semibold flex flex-col items-center">
+                You have exceeded your expense goal! <br />
+                <span className="text-sm text-gray-600 mt-2">Expense Goal: BDT {expenseGoal}</span>
+              </div>
+            ) : (
+              <div className="text-green-500 font-semibold">
+                You are within the budget! <br />
+                <span className="text-md text-gray-600 mt-2 ">Expense Goal: BDT {expenseGoal}</span>
+              </div>
+            )}
+          </div>
+
+          {/* Report Action Buttons */}
+          <div className="flex flex-col items-end space-y-4">
+            <Button onClick={fetchExpenseReport} className="bg-blue-500 hover:bg-blue-600 text-white py-2 px-6 rounded-md">
+              Refresh Report
+            </Button>
+            <Button onClick={exportToExcel} className="bg-green-500 hover:bg-green-600 text-white py-2 px-6 rounded-md">
+              Export to Excel
+            </Button>
+          </div>
         </div>
 
         {loading ? (
@@ -144,29 +167,11 @@ function ExpenseReport() {
           <div className="text-center text-red-500 font-semibold">{error}</div>
         ) : report && report.data ? (
           <div>
-            <div className="bg-blue-50 border p-4 rounded-md items-center mb-6 flex flex-col">
-              <div className="text-lg font-bold text-start  text-gray-800 mb-2">
-                Total Spending: <span className="text-blue-500">BDT {totalSpending}</span>
-              </div>
-              {expenseGoal === 0 ? (
-                <p className="text-red-500 font-semibold">Please add a budget to track your expenses.</p>
-              ) : isOverBudget ? (
-                <div className="text-red-500 font-semibold border flex flex-col items-center">
-                  You have exceeded your expense goal! <br />
-                  <span className="text-sm text-gray-600 mt-2">Expense Goal: BDT {expenseGoal}</span>
-                </div>
-              ) : (
-                <div className="text-green-500 font-semibold">
-                  You are within the budget! <br />
-                  <span className="text-sm text-gray-600 mt-2">Expense Goal: BDT {expenseGoal}</span>
-                </div>
-              )}
-            </div>
-
             <div className="overflow-x-auto">
-              <table className="w-full text-left border-collapse">
+              <table className="w-full text-center border-collapse ">
                 <thead>
                   <tr className="bg-gray-200">
+                    <th className="px-4 py-2">ID</th>
                     <th className="px-4 py-2">Category</th>
                     <th className="px-4 py-2">Price</th>
                     <th className="px-4 py-2">Actions</th>
@@ -174,7 +179,8 @@ function ExpenseReport() {
                 </thead>
                 <tbody>
                   {Object.entries(report.data).map(([category, price], index) => (
-                    <tr key={index} className="odd:bg-white even:bg-gray-100">
+                    <tr key={index} className="odd:bg-white even:bg-gray-100 hover:bg-gray-50 transition">
+                      <td className="px-4 py-2 font-medium text-gray-800">{index + 1}</td>
                       <td className="px-4 py-2 font-medium text-gray-800">
                         {editingCategory && editCategory === category ? (
                           <input
@@ -222,7 +228,7 @@ function ExpenseReport() {
                               onClick={() => handleCancelEdit()}
                               className="bg-gray-500 hover:bg-gray-600 text-white py-1 px-4 rounded-md flex items-center w-full md:w-auto"
                             >
-                              <FaArrowLeft size={16} className="" /> {/* Back Icon */}
+                              <FaArrowLeft size={16} /> {/* Back Icon */}
                               Back
                             </Button>
                             <Button
