@@ -1,5 +1,4 @@
 'use client';
-
 import { useState } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
@@ -66,7 +65,7 @@ const SignUp = () => {
       }
 
       const response = await res.json();
-      console.log(response);
+      
 
       // Store the token in localStorage if returned from the backend
       if (response.access_token) {
@@ -87,7 +86,8 @@ const SignUp = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-r bg-gray-300 flex items-center justify-center">
+    <div className="min-h-screen bg-gradient-to-r bg-gray-200 flex items-center justify-center px-2 lg:px-0 ">
+     
       <div className="bg-white p-8 rounded-lg shadow-xl max-w-md w-full transform transition-all duration-500 hover:scale-105">
         {/* Back Home Button */}
         <button
@@ -213,6 +213,7 @@ const SignUp = () => {
           </div>
         </div>
       </div>
+      
 
       {/* React Toastify container to show notifications */}
       <ToastContainer />
