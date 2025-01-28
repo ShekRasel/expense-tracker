@@ -119,7 +119,7 @@ function ExpenseReport() {
   const isOverBudget = totalSpending > expenseGoal;
 
   return (
-    <div className="h-auto flex  justify-center  2xl:justify-start 2xl:ml-4">
+    <div className="h-auto flex  justify-center   2xl:ml-4">
       <div className="w-full px-4 max-w-4xl bg-white rounded-xl py-10 border">
         <ToastContainer position="top-right" autoClose={3000} /> {/* Toast Container */}
         <h1 className="text-3xl font-bold text-gray-800 mb-6 text-center">
