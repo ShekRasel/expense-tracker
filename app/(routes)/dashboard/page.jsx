@@ -6,6 +6,7 @@ import { FaMoneyBillWave, FaChartPie } from "react-icons/fa";
 import { AiOutlineFund, AiOutlineWarning } from "react-icons/ai"; 
 import { Bar } from 'react-chartjs-2'; // Import Bar chart from react-chartjs-2
 import { Chart as ChartJS, BarElement, Title, Tooltip, Legend, CategoryScale, LinearScale } from 'chart.js'; // Import necessary Chart.js components
+import { jwtDecode } from "jwt-decode"; // Import jwt-decode for decoding the token
 
 // Register Chart.js components
 ChartJS.register(BarElement, Title, Tooltip, Legend, CategoryScale, LinearScale);
@@ -26,11 +27,22 @@ function Page() {
     if (!token) {
       router.push("/sign-in");
     } else {
-      setIsAuthenticated(true);
-      setUserName(storedUserName || "Guest"); // Set the user's name
+      // Decode the token to check if it's expired
+      const decodedToken = jwtDecode(token);
+      const currentTime = Date.now() / 1000; // Current time in seconds
 
-      // Fetch expense report
-      fetchExpenseReport(token);
+      if (decodedToken.exp < currentTime) {
+        // If the token is expired, redirect to the login page
+        localStorage.removeItem("authToken");
+        localStorage.removeItem("userName");
+        router.push("/sign-in");
+      } else {
+        setIsAuthenticated(true);
+        setUserName(storedUserName || "Guest"); // Set the user's name
+
+        // Fetch expense report
+        fetchExpenseReport(token);
+      }
     }
   }, [router]);
 
