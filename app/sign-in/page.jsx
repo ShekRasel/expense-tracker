@@ -6,8 +6,10 @@ import { AiOutlineEye, AiOutlineEyeInvisible, AiOutlineMail, AiOutlineLock, AiOu
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Image from "next/image";
+import ForgetPasswordModal from '../_components/ForgetPasswordModal';
 
 const SignIn = () => {
+  const [isModalOpen, setIsModalOpen] = useState(false);
   const [formData, setFormData] = useState({
     email: "",
     password: "",
@@ -135,10 +137,19 @@ const SignIn = () => {
 
           {/* Forgot Password Link */}
           <div className="mt-4 text-center">
-            <Link href="/forgot-password">
-              <p className="text-blue-600 hover:underline transition-all">Forgot Password?</p>
-            </Link>
+            <button
+              onClick={() => setIsModalOpen(true)}
+              className="text-blue-600 hover:underline transition-all"
+            >
+              Forgot Password?
+            </button>
           </div>
+
+           {/* Forget Password Modal */}
+      <ForgetPasswordModal
+        isOpen={isModalOpen}
+        onClose={() => setIsModalOpen(false)}
+      />
 
           {/* Sign Up Link */}
           <div className="mt-6 text-center">
