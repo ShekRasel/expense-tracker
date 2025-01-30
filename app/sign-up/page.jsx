@@ -85,7 +85,7 @@ const SignUp = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-r from-blue-50 to-gray-100 flex items-center justify-center px-4 lg:px-8">
+    <div className="min-h-screen bg-gradient-to-r from-blue-50 to-gray-100 flex items-center justify-center px-4 lg:px-8 lg:mt-16 2xl:mt-0">
       {/* Container for Image and Form */}
       <div className="flex items-stretch bg-white rounded-2xl shadow-xl overflow-hidden w-full max-w-4xl">
         {/* Left Side: Image with Text */}

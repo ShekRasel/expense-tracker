@@ -3,18 +3,17 @@ import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import axios from "axios";
 import { FaMoneyBillWave, FaChartPie } from "react-icons/fa";
-import { AiOutlineFund, AiOutlineWarning } from "react-icons/ai"; 
-import { Bar } from 'react-chartjs-2';
-import { Pie } from 'react-chartjs-2'; // Import Pie chart
+import { AiOutlineFund, AiOutlineWarning } from "react-icons/ai";
+import { Bar, Pie } from 'react-chartjs-2';
 import { Chart as ChartJS, BarElement, Title, Tooltip, Legend, CategoryScale, LinearScale, ArcElement } from 'chart.js';
-import { jwtDecode } from "jwt-decode"; 
+import { jwtDecode } from "jwt-decode";
 
-ChartJS.register(BarElement, Title, Tooltip, Legend, CategoryScale, LinearScale, ArcElement); // Register ArcElement for Pie Chart
+ChartJS.register(BarElement, Title, Tooltip, Legend, CategoryScale, LinearScale, ArcElement);
 
 function Page() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
-  const [userName, setUserName] = useState(""); 
-  const [expenses, setExpenses] = useState(null); 
+  const [userName, setUserName] = useState("");
+  const [expenses, setExpenses] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
@@ -65,9 +64,9 @@ function Page() {
     labels: expenses ? Object.keys(expenses.data) : [],
     datasets: [
       {
-        label: 'Expense Categories', 
+        label: 'Expense Categories',
         data: expenses ? Object.values(expenses.data) : [],
-        backgroundColor: '#4CAF50', 
+        backgroundColor: '#4CAF50',
         borderColor: '#388E3C',
         borderWidth: 1,
       },
@@ -102,127 +101,125 @@ function Page() {
   }
 
   return (
-    <div className="xl:px-8 2xl:px-16 min-h-screen">
-      <h1 className="font-medium text-2xl mt-4 text-center mb-4 text-gray-700">
-        Wellcome to Dashboard! 😀
-      </h1>
-      <p className="text-center text-gray-600 mb-8">Here's your expense report:</p>
+    <div className="xl:px-8 2xl:px-16 min-h-screen bg-gradient-to-br from-gray-50 to-gray-100">
+      {/* Welcome Section */}
+      <div className="pt-8 pb-6 text-center">
+        <h1 className="font-bold text-3xl text-gray-800 mb-2">Welcome to Your Dashboard,😀</h1>
+        <p className="text-gray-600">Here's your personalized expense report and budget overview.</p>
+      </div>
 
-      {loading ? (
-        <div className="text-center text-blue-500 font-medium mt-4">Loading your expense report...</div>
-      ) : error ? (
-        <div className="text-center text-red-500 font-medium mt-4">{error}</div>
-      ) : expenses && expenses.data ? (
-        <div className="grid grid-cols-1 lg:grid-cols-2 2xl:grid-cols-3 gap-6 mt-6">
-          <div className="bg-blue-500 text-white p-5 rounded-lg shadow-md">
-            <div className="flex items-center space-x-3">
-              <FaMoneyBillWave size={30} />
-              <div>
-                <h2 className="text-xl font-medium">Total Spending</h2>
-                <p className="text-lg">BDT {expenses.totalSpending}</p>
-              </div>
-            </div>
-          </div>
-
-          <div className="bg-green-500 text-white p-5 rounded-lg shadow-md">
-            <div className="flex items-center space-x-3">
-              <AiOutlineFund size={30} />
-              <div>
-                <h2 className="text-xl font-medium">Expense Goal</h2>
-                <p className="text-lg">BDT {expenses.total_expense_goal}</p>
-              </div>
-            </div>
-          </div>
-
-          <div
-            className={`p-5 rounded-lg shadow-md ${expenses.totalSpending > expenses.total_expense_goal ? "bg-red-400 text-white" : "bg-green-400 text-white"}`}
-          >
-            <div className="flex items-center space-x-3">
-              <AiOutlineWarning size={30} />
-              <div>
-                <h2 className="text-xl font-medium">Budget Status</h2>
-                {expenses.totalSpending > expenses.total_expense_goal ? (
-                  <p className="text-lg">Over Budget!</p>
-                ) : (
-                  <p className="text-lg">Within Budget</p>
-                )}
-              </div>
-            </div>
-          </div>
-
-          {Object.entries(expenses.data).map(([category, price], index) => (
-            <div key={index} className="bg-gray-200 text-gray-800 p-5 rounded-md shadow-md">
-              <div className="flex items-center space-x-3">
-                <FaChartPie size={30} className="text-blue-500" />
+      {/* Budget Overview Section */}
+      {expenses && (
+        <div className="bg-white p-6 rounded-xl shadow-lg mx-4 mb-8">
+          <h2 className="text-2xl font-semibold text-gray-800 mb-4">Budget Overview</h2>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <div className="bg-gradient-to-r from-blue-500 to-blue-600 text-white p-6 rounded-lg shadow-md">
+              <div className="flex items-center space-x-4">
+                <FaMoneyBillWave size={30} />
                 <div>
-                  <h2 className="text-lg font-medium">{category}</h2>
-                  <p className="text-sm">BDT {price}</p>
+                  <h3 className="text-xl font-medium">Total Spending</h3>
+                  <p className="text-2xl font-bold">BDT {expenses.totalSpending}</p>
                 </div>
               </div>
             </div>
-          ))}
+
+            <div className="bg-gradient-to-r from-green-500 to-green-600 text-white p-6 rounded-lg shadow-md">
+              <div className="flex items-center space-x-4">
+                <AiOutlineFund size={30} />
+                <div>
+                  <h3 className="text-xl font-medium">Expense Goal</h3>
+                  <p className="text-2xl font-bold">BDT {expenses.total_expense_goal}</p>
+                </div>
+              </div>
+            </div>
+
+            <div className={`p-6 rounded-lg shadow-md ${expenses.totalSpending > expenses.total_expense_goal ? "bg-gradient-to-r from-red-500 to-red-600" : "bg-gradient-to-r from-green-500 to-green-600"} text-white`}>
+              <div className="flex items-center space-x-4">
+                <AiOutlineWarning size={30} />
+                <div>
+                  <h3 className="text-xl font-medium">Budget Status</h3>
+                  <p className="text-2xl font-bold">
+                    {expenses.totalSpending > expenses.total_expense_goal ? "Over Budget!" : "Within Budget"}
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
-      ) : (
-        <div className="text-center text-gray-600 mt-4">No expense data available.</div>
       )}
 
-      {/* Bar and Pie Chart Section */}
+      {/* Expense Categories Section */}
       {expenses && expenses.data && (
-        <div className="mt-10 grid grid-cols-1 md:grid-cols-2 gap-6">
-          <div className="bg-white md:p-6 rounded-md shadow-md">
-            <h2 className="text-xl font-medium text-gray-800 text-left mb-4">Expense Breakdown by Category</h2>
-            <div className="w-full" style={{ height: '300px' }}>
-              <Bar
-                data={barChartData}
-                options={{
-                  responsive: true,
-                  maintainAspectRatio: true,
-                  plugins: {
-                    title: {
-                      display: true,
-                      text: 'Expense Breakdown',
-                      font: { size: 20, weight: 'bold' },
-                    },
-                    tooltip: {
-                      backgroundColor: '#000',
-                      titleColor: '#fff',
-                      bodyColor: '#fff',
-                      borderColor: '#fff',
-                      borderWidth: 1,
-                    },
-                  },
-                  scales: {
-                    x: {
-                      grid: { display: false },
-                      ticks: { font: { size: 12 } },
-                    },
-                    y: {
-                      grid: { color: '#ddd' },
-                      ticks: { font: { size: 12 } },
-                    },
-                  },
-                }}
-              />
-            </div>
+        <div className="bg-white p-6 rounded-xl shadow-lg mx-4 mb-8">
+          <h2 className="text-2xl font-semibold text-gray-800 mb-4">Expense Categories</h2>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {Object.entries(expenses.data).map(([category, price], index) => (
+              <div key={index} className="bg-gray-50 p-4 rounded-lg shadow-sm hover:shadow-md transition-shadow">
+                <div className="flex items-center space-x-4">
+                  <FaChartPie size={24} className="text-blue-500" />
+                  <div>
+                    <h3 className="text-lg font-medium text-gray-800">{category}</h3>
+                    <p className="text-gray-600">BDT {price}</p>
+                  </div>
+                </div>
+              </div>
+            ))}
           </div>
+        </div>
+      )}
 
-          <div className="bg-white p-6 justify-center rounded-md shadow-md">
-            <h2 className="text-xl font-medium text-gray-800 text-left mb-4">Expense Distribution</h2>
-            <div className="w-full flex justify-center" style={{ height: '300px' }}>
-              <Pie
-                data={pieChartData}
-                options={{
-                  responsive: true,
-                  maintainAspectRatio: true,
-                  plugins: {
-                    title: { display: true, text: 'Expense Distribution' },
-                    tooltip: { backgroundColor: '#000', titleColor: '#fff', bodyColor: '#fff' },
-                  },
-                }}
-              />
+      {/* Charts Section */}
+      {expenses && expenses.data && (
+        <div className="bg-white p-6 rounded-xl shadow-lg mx-4 mb-8">
+          <h2 className="text-2xl font-semibold text-gray-800 mb-6">Visual Insights</h2>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+            <div className="bg-gray-50 p-6 rounded-lg shadow-sm">
+              <h3 className="text-xl font-medium text-gray-800 mb-4">Expense Breakdown by Category</h3>
+              <div className="w-full h-72">
+                <Bar
+                  data={barChartData}
+                  options={{
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                      title: { display: false },
+                      tooltip: { backgroundColor: '#000', titleColor: '#fff', bodyColor: '#fff' },
+                    },
+                    scales: {
+                      x: { grid: { display: false }, ticks: { font: { size: 12 } } },
+                      y: { grid: { color: '#ddd' }, ticks: { font: { size: 12 } } },
+                    },
+                  }}
+                />
+              </div>
+            </div>
+
+            <div className="bg-gray-50 p-6 rounded-lg shadow-sm">
+              <h3 className="text-xl font-medium text-gray-800 mb-4">Expense Distribution</h3>
+              <div className="w-full h-72 flex justify-center">
+                <Pie
+                  data={pieChartData}
+                  options={{
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                      title: { display: false },
+                      tooltip: { backgroundColor: '#000', titleColor: '#fff', bodyColor: '#fff' },
+                    },
+                  }}
+                />
+              </div>
             </div>
           </div>
         </div>
+      )}
+
+      {/* Loading and Error States */}
+      {loading && (
+        <div className="text-center text-blue-500 font-medium mt-8">Loading your expense report...</div>
+      )}
+      {error && (
+        <div className="text-center text-red-500 font-medium mt-8">{error}</div>
       )}
     </div>
   );

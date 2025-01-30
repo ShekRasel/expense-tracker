@@ -2,7 +2,7 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { Button } from "@/components/ui/button";
-import { FaTrashAlt, FaArrowLeft } from "react-icons/fa"; // Importing icons
+import { FaTrashAlt, FaArrowLeft, FaEdit, FaFileExport } from "react-icons/fa";
 import * as XLSX from "xlsx";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -78,7 +78,7 @@ function ExpenseReport() {
       } else {
         const updatedExpense = {
           data: {
-            [category]: parseFloat(priceInput), // Use category as key and priceInput as value
+            [category]: parseFloat(priceInput),
           },
         };
 
@@ -93,8 +93,8 @@ function ExpenseReport() {
         );
       }
 
-      fetchExpenseReport(); // Refresh the report after successful update
-      handleCancelEdit(); // Reset states
+      fetchExpenseReport();
+      handleCancelEdit();
       toast.success("Expense updated successfully!");
     } catch (err) {
       setError("Failed to update expense. Please try again later.");
@@ -113,26 +113,25 @@ function ExpenseReport() {
 
   const authToken = localStorage.getItem("authToken");
 
-const handleRemoveExpense = async (categoryKey) => {
-  try {
-    await axios.patch(
-      `http://localhost:3000/expense/category/delete/${categoryKey}`,
-      {}, 
-      {
-        headers: {
-          Authorization: `Bearer ${authToken}`,
-        },
-      }
-    );
-    fetchExpenseReport();
-    toast.success("Expense removed successfully!");
-  } catch (err) {
-    console.error("Delete request error:", err.response?.data || err.message);
-    setError("Failed to remove expense. Please try again later.");
-    toast.error("Failed to remove expense. Please try again later.");
-  }
-};
-
+  const handleRemoveExpense = async (categoryKey) => {
+    try {
+      await axios.patch(
+        `http://localhost:3000/expense/category/delete/${categoryKey}`,
+        {},
+        {
+          headers: {
+            Authorization: `Bearer ${authToken}`,
+          },
+        }
+      );
+      fetchExpenseReport();
+      toast.success("Expense removed successfully!");
+    } catch (err) {
+      console.error("Delete request error:", err.response?.data || err.message);
+      setError("Failed to remove expense. Please try again later.");
+      toast.error("Failed to remove expense. Please try again later.");
+    }
+  };
 
   useEffect(() => {
     fetchExpenseReport();
@@ -143,38 +142,38 @@ const handleRemoveExpense = async (categoryKey) => {
   const isOverBudget = totalSpending > expenseGoal;
 
   return (
-    <div className="h-auto md:px-6 xl:px-12">
-      <div className="w-full  mx-auto px-4 py-4 bg-white rounded-lg shadow-lg border">
+    <div className="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100 p-4">
+      <div className="max-w-7xl mx-auto bg-white rounded-xl shadow-2xl p-6">
         <ToastContainer position="top-right" autoClose={3000} />
-        <h1 className="text-4xl font-semibold text-gray-800 mb-6 text-center">
+        <h1 className="text-3xl md:text-4xl font-bold text-gray-900 mb-6 text-center">
           Expense Report
         </h1>
-        <p className="text-gray-600 mb-6 text-center text-lg">
+        <p className="text-gray-600 mb-8 text-center text-lg">
           View your detailed expense report along with total spending.
         </p>
 
         {/* Current Expense Situation Section */}
-        <div className="flex  sm:flex-row  2xl:px-24  justify-between items-center mb-6">
-          <div>
-            <div className="text-xl font-bold text-start text-gray-800 mb-2">
+        <div className="flex flex-col md:flex-row justify-between items-center mb-8">
+          <div className="text-center md:text-left">
+            <div className="text-xl md:text-2xl font-bold text-gray-800 mb-2">
               Total Spending:{" "}
-              <span className="text-blue-500">BDT {totalSpending}</span>
+              <span className="text-blue-600">BDT {totalSpending}</span>
             </div>
             {expenseGoal === 0 ? (
               <p className="text-red-500 font-semibold">
                 Please add a budget to track your expenses.
               </p>
             ) : isOverBudget ? (
-              <div className="text-red-500 font-semibold flex flex-col items-center">
+              <div className="text-red-500 font-semibold">
                 You have exceeded your expense goal! <br />
                 <span className="text-sm text-gray-600 mt-2">
                   Expense Goal: BDT {expenseGoal}
                 </span>
               </div>
             ) : (
-              <div className="text-green-500 font-semibold">
+              <div className="text-green-600 font-semibold">
                 You are within the budget! <br />
-                <span className="text-md text-gray-600 mt-2">
+                <span className="text-sm text-gray-600 mt-2">
                   Expense Goal: BDT {expenseGoal}
                 </span>
               </div>
@@ -182,133 +181,128 @@ const handleRemoveExpense = async (categoryKey) => {
           </div>
 
           {/* Report Action Buttons */}
-          <div className="flex flex-col items-center sm:items-end space-y-4">
+          <div className="flex flex-col sm:flex-row gap-4 mt-6 md:mt-0">
             <Button
               onClick={fetchExpenseReport}
-              className="bg-blue-500 hover:bg-blue-600 text-white py-2 px-6 rounded-md"
+              className="bg-blue-600 hover:bg-blue-700 text-white py-2 px-4 md:py-3 md:px-6 rounded-lg flex items-center gap-2"
             >
+              <FaArrowLeft />
               Refresh Report
             </Button>
             <Button
               onClick={exportToExcel}
-              className="bg-green-500 hover:bg-green-600 text-white py-2 px-6 rounded-md"
+              className="bg-green-600 hover:bg-green-700 text-white py-2 px-4 md:py-3 md:px-6 rounded-lg flex items-center gap-2"
             >
+              <FaFileExport />
               Export to Excel
             </Button>
           </div>
         </div>
 
         {loading ? (
-          <div className="text-center text-blue-500 font-semibold">
+          <div className="text-center text-blue-600 font-semibold">
             Loading...
           </div>
         ) : error ? (
-          <div className="text-center text-red-500 font-semibold">{error}</div>
+          <div className="text-center text-red-600 font-semibold">{error}</div>
         ) : report && report.data ? (
-          <div>
-            <div className="overflow-x-auto">
-              <table className="w-full text-center border-collapse shadow-md">
-                <thead>
-                  <tr className="bg-gray-200">
-                    <th className="px-6 py-3 font-medium text-gray-700">ID</th>
-                    <th className="px-6 py-3 font-medium text-gray-700">
-                      Category
-                    </th>
-                    <th className="px-6 py-3 font-medium text-gray-700">
-                      Price
-                    </th>
-                    <th className="px-6 py-3 font-medium text-gray-700 text-center">
-                      Actions
-                    </th>
-                    <th className="px-6 py-3 font-medium text-gray-700 text-center">
-                      Delete Category
-                    </th> {/* New column for Delete */}
-                  </tr>
-                </thead>
-                <tbody>
-                  {Object.entries(report.data).map(
-                    ([category, price], index) => (
-                      <tr
-                        key={index}
-                        className="odd:bg-white even:bg-gray-100 hover:bg-gray-50 transition duration-300"
-                      >
-                        <td className="px-6 py-3 font-medium text-gray-800">
-                          {index + 1}
-                        </td>
-                        <td className="px-6 py-3 font-medium text-gray-800">
-                          {editingCategory && editCategory === category ? (
-                            <input
-                              type="text"
-                              value={categoryInput}
-                              onChange={(e) => setCategoryInput(e.target.value)}
-                              className="px-4 py-2 border border-gray-300 rounded-md"
-                            />
-                          ) : (
-                            category
-                          )}
-                        </td>
-                        <td className="px-6 py-3 text-gray-600">
-                          {editingPrice && editCategory === category ? (
-                            <input
-                              type="number"
-                              value={priceInput}
-                              onChange={(e) => setPriceInput(e.target.value)}
-                              className="px-4 py-2 border border-gray-300 rounded-md w-32"
-                            />
-                          ) : (
-                            `BDT ${price}`
-                          )}
-                        </td>
-                        <td className="px-6 py-3 text-center">
-                          {/* Centered "Actions" text */}
-                          {!editingCategory && !editingPrice && (
-                            <div className="flex justify-center items-center gap-2 flex-wrap sm:flex-col md:flex-row">
-                              <Button
-                                onClick={() => handleEditCategory(category)}
-                                className="bg-yellow-500 hover:bg-yellow-600 text-white py-2 px-6 rounded-md"
-                              >
-                                Edit Category
-                              </Button>
-                              <Button
-                                onClick={() => handleEditPrice(category, price)}
-                                className="bg-orange-500 hover:bg-orange-600 text-white py-2  px-9 rounded-md"
-                              >
-                                Add Price
-                              </Button>
-                            </div>
-                          )}
-                          {(editingCategory || editingPrice) &&
-                            editCategory === category && (
-                              <div className="flex justify-center gap-3">
-                                <Button
-                                  onClick={() => handleUpdateExpense(category)}
-                                  className="bg-green-500 hover:bg-green-600 text-white py-2 px-6 rounded-md"
-                                >
-                                  Update
-                                </Button>
-                                <Button
-                                  onClick={handleCancelEdit}
-                                  className="bg-gray-500 hover:bg-gray-600 text-white py-2 px-6 rounded-md"
-                                >
-                                  Cancel
-                                </Button>
-                              </div>
-                            )}
-                        </td>
-                        <td className="px-6 py-3 text-center">
+          <div className="w-full overflow-x-auto">
+            <table className="w-full min-w-[600px] text-center border-collapse shadow-lg">
+              <thead>
+                <tr className="bg-gray-200">
+                  <th className="px-4 py-3 font-medium text-gray-700">ID</th>
+                  <th className="px-4 py-3 font-medium text-gray-700">
+                    Category
+                  </th>
+                  <th className="px-4 py-3 font-medium text-gray-700">Price</th>
+                  <th className="px-4 py-3 font-medium text-gray-700">
+                    Actions
+                  </th>
+                  <th className="px-4 py-3 font-medium text-gray-700">Delete</th>
+                </tr>
+              </thead>
+              <tbody>
+                {Object.entries(report.data).map(([category, price], index) => (
+                  <tr
+                    key={index}
+                    className="odd:bg-white even:bg-gray-50 hover:bg-gray-100 transition duration-300"
+                  >
+                    <td className="px-4 py-3 font-medium text-gray-800">
+                      {index + 1}
+                    </td>
+                    <td className="px-4 py-3 font-medium text-gray-800">
+                      {editingCategory && editCategory === category ? (
+                        <input
+                          type="text"
+                          value={categoryInput}
+                          onChange={(e) => setCategoryInput(e.target.value)}
+                          className="px-2 py-1 border border-gray-300 rounded-lg"
+                        />
+                      ) : (
+                        category
+                      )}
+                    </td>
+                    <td className="px-4 py-3 text-gray-600">
+                      {editingPrice && editCategory === category ? (
+                        <input
+                          type="number"
+                          value={priceInput}
+                          onChange={(e) => setPriceInput(e.target.value)}
+                          className="px-2 py-1 border border-gray-300 rounded-lg w-24"
+                        />
+                      ) : (
+                        `BDT ${price}`
+                      )}
+                    </td>
+                    <td className="px-4 py-3">
+                      {!editingCategory && !editingPrice && (
+                        <div className="flex justify-center gap-2">
                           <Button
-                            onClick={() => handleRemoveExpense(category)}
-                            className="bg-red-500 hover:bg-red-600 text-white py-2 px-6 rounded-md"
+                            onClick={() => handleEditCategory(category)}
+                            className="bg-yellow-500 hover:bg-yellow-600 text-white py-1 px-2 md:py-2 md:px-4 rounded-lg flex items-center gap-1"
                           >
-                            <FaTrashAlt />
+                            <FaEdit />
+                            Edit
                           </Button>
-                        </td> {/* Delete button */}
-                      </tr>
-                    )
-                  )}
-                </tbody>
-              </table>
-            </div>
+                          <Button
+                            onClick={() => handleEditPrice(category, price)}
+                            className="bg-orange-500 hover:bg-orange-600 text-white py-1 px-2 md:py-2 md:px-4 rounded-lg flex items-center gap-1"
+                          >
+                            <FaEdit />
+                            Price
+                          </Button>
+                        </div>
+                      )}
+                      {(editingCategory || editingPrice) &&
+                        editCategory === category && (
+                          <div className="flex justify-center gap-2">
+                            <Button
+                              onClick={() => handleUpdateExpense(category)}
+                              className="bg-green-500 hover:bg-green-600 text-white py-1 px-2 md:py-2 md:px-4 rounded-lg"
+                            >
+                              Update
+                            </Button>
+                            <Button
+                              onClick={handleCancelEdit}
+                              className="bg-gray-500 hover:bg-gray-600 text-white py-1 px-2 md:py-2 md:px-4 rounded-lg"
+                            >
+                              Cancel
+                            </Button>
+                          </div>
+                        )}
+                    </td>
+                    <td className="px-4 py-3">
+                      <Button
+                        onClick={() => handleRemoveExpense(category)}
+                        className="bg-red-500 hover:bg-red-600 text-white py-1 px-2 md:py-2 md:px-4 rounded-lg"
+                      >
+                        <FaTrashAlt />
+                      </Button>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
           </div>
         ) : (
           <div className="text-center text-gray-500 font-semibold">

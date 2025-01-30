@@ -1,8 +1,8 @@
 'use client';
 import React, { useState } from "react";
 import { List, DollarSign } from "lucide-react";
-import { toast, ToastContainer } from "react-toastify"; 
-import "react-toastify/dist/ReactToastify.css"; 
+import { toast, ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const AddCategoryForm = ({ onCategoryAdded }) => {
   const [category, setCategory] = useState("");
@@ -37,6 +37,9 @@ const AddCategoryForm = ({ onCategoryAdded }) => {
       if (response.ok) {
         toast.success("Category and price added successfully!");
         onCategoryAdded(category, price);
+        setCategory("");
+        setPrice("");
+        setMessage("");
       } else {
         toast.error(data.error || "Failed to add category.");
       }
@@ -46,53 +49,55 @@ const AddCategoryForm = ({ onCategoryAdded }) => {
   };
 
   return (
-    <div className="space-y-6">
-      <form onSubmit={handleSubmit} className="bg-white p-6 border rounded-sm shadow-md">
+    <div className="max-w-md mx-auto p-6 bg-white rounded-lg shadow-lg">
+      <h2 className="text-2xl font-bold text-gray-800 mb-6 text-center">Add New Expense</h2>
+      <form onSubmit={handleSubmit} className="space-y-6">
         <div>
-          <label className="block text-gray-600 font-medium">Expense Name</label>
-          <div className="flex items-center border-2 border-gray-300 rounded-md mt-2">
-            <List size={22} className="text-gray-400 mx-3" />
+          <label className="block text-sm font-medium text-gray-700 mb-2">Expense Category</label>
+          <div className="flex items-center border border-gray-300 rounded-lg px-4 py-2 focus-within:border-blue-500 focus-within:ring-1 focus-within:ring-blue-500">
+            <List size={20} className="text-gray-400" />
             <input
               type="text"
-              placeholder="Enter category name"
+              placeholder="e.g., Groceries, Rent, Utilities"
               value={category}
               onChange={(e) => setCategory(e.target.value)}
-              className="w-full px-3 py-2 text-gray-700 border-none focus:outline-none"
+              className="w-full ml-3 p-2 text-gray-700 placeholder-gray-400 focus:outline-none"
             />
           </div>
         </div>
 
-        <div className="mt-4">
-          <label className="block text-gray-600 font-medium">Price</label>
-          <div className="flex items-center border-2 border-gray-300 rounded-md mt-2">
-            <DollarSign size={22} className="text-gray-400 mx-3" />
+        <div>
+          <label className="block text-sm font-medium text-gray-700 mb-2">Amount</label>
+          <div className="flex items-center border border-gray-300 rounded-lg px-4 py-2 focus-within:border-blue-500 focus-within:ring-1 focus-within:ring-blue-500">
+            <DollarSign size={20} className="text-gray-400" />
             <input
               type="number"
-              placeholder="Enter price"
+              placeholder="e.g., 100.00"
               value={price}
               onChange={(e) => setPrice(e.target.value)}
-              className="w-full px-3 py-2 text-gray-700 border-none focus:outline-none"
+              className="w-full ml-3 p-2 text-gray-700 placeholder-gray-400 focus:outline-none"
             />
           </div>
         </div>
 
         <button
           type="submit"
-          className="w-full mt-6 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700"
+          className="w-full py-3 bg-blue-600 text-white font-semibold rounded-lg hover:bg-blue-700 transition duration-200"
         >
-          Add Category
+          Add Expense
         </button>
       </form>
 
       {/* Message Display */}
       {message && (
         <div
-          className={`mt-6 p-4 rounded-md text-center text-white ${message.includes("success") ? "bg-green-500" : "bg-red-500"}`}
+          className={`mt-6 p-4 rounded-lg text-center text-white ${message.includes("success") ? "bg-green-500" : "bg-red-500"}`}
         >
           {message}
         </div>
       )}
-      <ToastContainer />
+
+      <ToastContainer position="top-center" autoClose={3000} />
     </div>
   );
 };

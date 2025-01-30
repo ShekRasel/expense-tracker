@@ -62,7 +62,7 @@ function SideNavbar({ isSidebarOpen, toggleSidebar }) {
       )}
 
       {/* Sidebar for lg+ devices */}
-      <div className="hidden lg:block fixed h-screen w-64 p-5 border shadow-sm bg-white z-20">
+      <div className="hidden lg:block fixed h-screen w-64 p-5  shadow-sm bg-white z-20">
         <div className="mt-5">
           {menuList.map((menu) => (
             <Link key={menu.id} href={menu.path}>
