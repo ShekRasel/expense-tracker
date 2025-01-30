@@ -13,6 +13,7 @@ export default function BudgetForm() {
     ],
   });
   const [submittedData, setSubmittedData] = useState(null);
+  const [isPopupVisible, setIsPopupVisible] = useState(false);
 
   const handleChange = (e, index) => {
     const { name, value } = e.target;
@@ -57,6 +58,7 @@ export default function BudgetForm() {
       const response = await axios.post('http://localhost:3000/guest/budget', updatedFormData);
       toast.success('Budget submitted successfully!');
       setSubmittedData(response.data);
+      setIsPopupVisible(true); // Show the popup smoothly
     } catch (error) {
       console.error('Error creating budget:', error);
       toast.error('Failed to submit budget. Please try again.');
@@ -79,11 +81,17 @@ export default function BudgetForm() {
     toast.success('Excel file generated successfully!');
   };
 
+  const closePopup = () => {
+    setIsPopupVisible(false);
+    setSubmittedData(null);
+  };
+
   return (
     <div className="h-auto flex justify-center items-center p-4">
-      <div className="w-full max-w-2xl bg-white rounded-lg shadow-lg p-6 sm:p-10">
-        <h2 className="text-2xl font-semibold text-center mb-6 text-gray-800">Budget Form</h2>
+      <div className="w-full max-w-2xl bg-gradient-to-br from-purple-50 to-blue-50 rounded-xl shadow-2xl p-6 sm:p-10">
+        <h2 className="text-3xl font-bold text-center mb-8 text-gray-900">Budget Planner</h2>
         <form onSubmit={handleSubmit} className="space-y-6">
+          {/* Total Expense Goal */}
           <div>
             <label htmlFor="total_expense_goal" className="block text-sm font-medium text-gray-700">
               Total Expense Goal
@@ -95,21 +103,22 @@ export default function BudgetForm() {
               name="total_expense_goal"
               value={formData.total_expense_goal}
               onChange={(e) => setFormData({ ...formData, total_expense_goal: e.target.value })}
-              className="mt-2 w-full p-3 border rounded-sm shadow-sm focus:ring-blue-500 focus:border-blue-500"
+              className="mt-2 w-full p-3 border border-gray-300 rounded-lg shadow-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all"
             />
           </div>
 
+          {/* Categories */}
           <div>
             <h3 className="text-sm font-semibold text-gray-700">Categories</h3>
             {formData.categories.map((category, index) => (
-              <div key={index} className="space-y-2 mt-4 flex items-center space-x-4">
+              <div key={index} className="space-y-2 mt-4 flex items-center gap-4">
                 <input
                   type="text"
                   name="name"
                   value={category.name}
                   onChange={(e) => handleChange(e, index)}
                   placeholder="Category Name"
-                  className="w-full p-3 border rounded-sm shadow-sm focus:ring-blue-500 focus:border-blue-500"
+                  className="w-full p-3 border border-gray-300 rounded-lg shadow-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all"
                 />
                 <input
                   type="number"
@@ -117,12 +126,12 @@ export default function BudgetForm() {
                   value={category.price}
                   onChange={(e) => handleChange(e, index)}
                   placeholder="Price"
-                  className="w-full p-3 border rounded-sm shadow-sm focus:ring-blue-500 focus:border-blue-500"
+                  className="w-full p-3 border border-gray-300 rounded-lg shadow-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all"
                 />
                 <button
                   type="button"
                   onClick={() => handleRemoveCategory(index)}
-                  className="w-full text-red-600 hover:text-red-800"
+                  className="text-red-600 hover:text-red-800 transition-all"
                 >
                   Remove
                 </button>
@@ -131,31 +140,32 @@ export default function BudgetForm() {
             <button
               type="button"
               onClick={handleAddCategory}
-              className="mt-4 text-blue-600 hover:text-blue-800"
+              className="mt-4 text-blue-600 hover:text-blue-800 transition-all"
             >
-              Add Category
+              + Add Category
             </button>
           </div>
 
+          {/* Submit Button */}
           <button
             type="submit"
-            className="w-full bg-blue-600 text-white py-3 rounded-sm font-semibold hover:bg-blue-700 transition"
+            className="w-full bg-gradient-to-r from-blue-600 to-indigo-700 text-white py-3 rounded-lg font-semibold hover:from-blue-700 hover:to-indigo-800 transition-all shadow-lg"
           >
             Submit Budget
           </button>
         </form>
 
         {/* Submitted Data Popup */}
-        {submittedData && (
-          <div className="fixed inset-0 bg-gray-900 bg-opacity-50 flex justify-center items-center z-40">
-            <div className="bg-white p-6 rounded-lg shadow-lg w-full max-w-md">
-              <h3 className="text-xl font-semibold text-gray-800">Submitted Data</h3>
-              <p className="mt-2 text-gray-700">
-                Total Expense Goal: <strong>BDT-{submittedData.total_expense_goal}</strong>
+        {isPopupVisible && (
+          <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50 transition-opacity duration-300">
+            <div className="bg-white p-8 rounded-xl shadow-2xl w-full max-w-md transform transition-transform duration-300 scale-100">
+              <h3 className="text-2xl font-bold text-gray-900">Submitted Data</h3>
+              <p className="mt-4 text-gray-700">
+                Total Expense Goal: <strong>BDT {submittedData.total_expense_goal}</strong>
               </p>
-              <h4 className="mt-4 text-lg font-semibold text-gray-700">Categories:</h4>
-              <div className="mt-2 overflow-x-auto">
-                <table className="min-w-full bg-white border border-gray-300 rounded-lg">
+              <h4 className="mt-6 text-lg font-semibold text-gray-700">Categories:</h4>
+              <div className="mt-4 overflow-x-auto">
+                <table className="min-w-full bg-white border border-gray-200 rounded-lg">
                   <thead>
                     <tr>
                       <th className="p-3 text-left text-sm font-semibold text-gray-700 border-b">Category</th>
@@ -164,7 +174,7 @@ export default function BudgetForm() {
                   </thead>
                   <tbody>
                     {submittedData.categories.map((category, index) => (
-                      <tr key={index} className="hover:bg-gray-100">
+                      <tr key={index} className="hover:bg-gray-50 transition-all">
                         <td className="p-3 text-sm text-gray-700 border-b">{category.name}</td>
                         <td className="p-3 text-sm text-gray-700 border-b">BDT {category.price}</td>
                       </tr>
@@ -172,19 +182,19 @@ export default function BudgetForm() {
                   </tbody>
                 </table>
               </div>
-              <p className="mt-4 text-gray-700">
-                Total Spending: <strong>BDT- {submittedData.total_spending}</strong>
+              <p className="mt-6 text-gray-700">
+                Total Spending: <strong>BDT {submittedData.total_spending}</strong>
               </p>
-              <div className="flex justify-between mt-4">
+              <div className="flex justify-between mt-8">
                 <button
                   onClick={generateExcel}
-                  className="bg-green-600 text-white py-2 px-4 rounded-sm font-semibold hover:bg-green-700 transition"
+                  className="bg-gradient-to-r from-green-600 to-teal-600 text-white py-2 px-6 rounded-lg font-semibold hover:from-green-700 hover:to-teal-700 transition-all shadow-lg"
                 >
                   Generate Excel
                 </button>
                 <button
-                  onClick={() => setSubmittedData(null)}
-                  className="text-red-600 hover:text-red-800"
+                  onClick={closePopup}
+                  className="text-red-600 hover:text-red-800 transition-all"
                 >
                   Close
                 </button>

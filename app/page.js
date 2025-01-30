@@ -13,12 +13,12 @@ export default function Home() {
   return (
     <div>
       {/* Include Header */}
-      <Header />
+     
 
       {/* Include Hero */}
       <Hero />
 
-      <Footer/>
+      
 
       {/* Add the ToastContainer */}
       <ToastContainer />

@@ -10,7 +10,6 @@ import { ChevronLeftIcon } from "@heroicons/react/solid"; // Importing back icon
 function GuestPage() {
   const [timeRemaining, setTimeRemaining] = useState(600); // Countdown starts at 10 minutes
   const router = useRouter();
-  const [isSticky, setIsSticky] = useState(false);
 
   // Redirect to the sign-up page after countdown
   useEffect(() => {
@@ -24,77 +23,95 @@ function GuestPage() {
     }
   }, [timeRemaining, router]);
 
-  // Track the scroll position for sticky navbar
-  useEffect(() => {
-    const handleScroll = () => {
-      if (window.scrollY > 20) {
-        setIsSticky(true);
-      } else {
-        setIsSticky(false);
-      }
-    };
-
-    window.addEventListener("scroll", handleScroll);
-
-    return () => {
-      window.removeEventListener("scroll", handleScroll);
-    };
-  }, []);
-
   return (
-    <div className="px-4 sm:px-6 lg:px-8 py-20">
-  <div className="max-w-screen-xl mx-auto">
-    {/* Navbar */}
-    <div
-      className={`p-5 flex justify-between items-center bg-white shadow-lg border-b fixed top-0 left-0 w-full z-50 transition-all duration-300 ease-in-out px-5 lg:px-24 xl:px-32 2xl:px-64 ${
-        isSticky ? "bg-opacity-90 backdrop-blur-md shadow-xl py-2" : "py-4"
-      }`}
-    >
-      {/* Back Home Button */}
-      <Link href={"/"}>
-        <Button className="bg-[#5C5CFF] text-white font-medium text-sm py-2 px-4 rounded-sm shadow-lg flex items-center gap-2 hover:bg-[#2E2EFF] transition duration-300 ease-in-out">
-          <ChevronLeftIcon className="h-5 w-5 text-white" />
-           Home
-        </Button>
-      </Link>
+    <div className="px-4 sm:px-6 lg:px-8 py-20 bg-gradient-to-br from-purple-50 to-blue-50">
+      <div className="max-w-screen-xl mx-auto">
+        {/* Countdown Timer */}
+        <div className="bg-gradient-to-r from-blue-600 to-indigo-700 text-white py-3 rounded-lg shadow-lg mb-10">
+          <div className="text-sm font-medium text-center">
+            Redirecting in {timeRemaining}s
+          </div>
+        </div>
 
-      {/* Countdown Timer */}
-      <div className="bg-gradient-to-r from-blue-500 to-indigo-600 text-white px-4 py-2 rounded-sm shadow-lg">
-        <div className="text-sm font-medium">{timeRemaining}s</div>
+        {/* Main Content */}
+        <div className="text-center py-16">
+          <h1 className="text-4xl sm:text-5xl font-bold text-gray-900 leading-tight mb-6">
+            Master Your Budgeting Skills
+          </h1>
+          <p className="text-lg sm:text-xl text-gray-600 mb-10 opacity-90">
+            Welcome to the guest demo! Explore our powerful budgeting tools and
+            see how easy it is to take control of your finances. Create a sample
+            budget, track expenses, and gain insights into your financial habits
+            in just a few minutes.
+          </p>
+        </div>
+
+        {/* Budget Form Section */}
+        <div className="w-full lg:w-1/2 mx-auto mb-16">
+          <BudgetForm />
+        </div>
+
+        {/* Features Section */}
+        <div className="text-center py-16">
+          <h2 className="text-3xl sm:text-4xl font-bold text-gray-900 mb-8">
+            Why Choose Our App?
+          </h2>
+          <p className="text-lg sm:text-xl text-gray-600 mb-12">
+            Our app is designed to simplify financial planning and help you
+            achieve your goals. Here’s what makes us stand out:
+          </p>
+
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+            {/* Feature 1 */}
+            <div className="bg-white p-8 rounded-xl shadow-lg hover:shadow-xl transition-shadow duration-300">
+              <h3 className="text-2xl font-bold text-gray-900 mb-4">
+                Effortless Budgeting
+              </h3>
+              <p className="text-gray-600">
+                Create and manage budgets with ease. Categorize expenses, set
+                savings goals, and stay on top of your finances effortlessly.
+              </p>
+            </div>
+            {/* Feature 2 */}
+            <div className="bg-white p-8 rounded-xl shadow-lg hover:shadow-xl transition-shadow duration-300">
+              <h3 className="text-2xl font-bold text-gray-900 mb-4">
+                Real-Time Insights
+              </h3>
+              <p className="text-gray-600">
+                Track your spending in real-time and get actionable insights to
+                improve your financial health.
+              </p>
+            </div>
+            {/* Feature 3 */}
+            <div className="bg-white p-8 rounded-xl shadow-lg hover:shadow-xl transition-shadow duration-300">
+              <h3 className="text-2xl font-bold text-gray-900 mb-4">
+                Smart Financial Planning
+              </h3>
+              <p className="text-gray-600">
+                Plan for the future with advanced tools that help you save,
+                invest, and achieve your financial dreams.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        {/* Call to Action Section */}
+        <div className="text-center py-16 bg-white rounded-xl shadow-lg">
+          <h2 className="text-3xl sm:text-4xl font-bold text-gray-900 mb-6">
+            Ready to Take Control of Your Finances?
+          </h2>
+          <p className="text-lg sm:text-xl text-gray-600 mb-8">
+            Sign up now to unlock the full potential of our budgeting tools and
+            start your journey toward financial freedom.
+          </p>
+          <Link href="/sign-up">
+            <Button className="bg-gradient-to-r from-blue-600 to-indigo-700 text-white font-semibold text-lg py-3 px-8 rounded-lg shadow-lg hover:from-blue-700 hover:to-indigo-800 transition-all duration-300">
+              Sign Up Now
+            </Button>
+          </Link>
+        </div>
       </div>
     </div>
-
-    {/* Main Content */}
-    <div className="text-center py-16">
-      <h1 className="text-2xl sm:text-3xl font-semibold text-gray-800 leading-tight mb-6">
-        Test Your Budgeting Skills
-      </h1>
-    </div>
-
-    {/* Flex Section */}
-    <div className="flex flex-col lg:flex-row gap-12 items-center justify-between">
-      {/* Budget Form Section */}
-      <div className="w-full lg:w-1/2">
-        <BudgetForm />
-      </div>
-
-      {/* Info Section */}
-      <div className="w-full lg:w-1/2 text-center lg:text-left">
-        <h2 className="text-2xl sm:text-3xl font-semibold text-gray-800 mb-4">
-          Create and Test Your Personal Budget
-        </h2>
-        <p className="text-sm sm:text-base text-gray-600 mb-8 opacity-80">
-          Ready to test your budgeting skills? Start by creating a budget
-          for your personal expenses and see how well you manage your
-          finances. This tool allows you to easily plan your income,
-          expenses, and savings, helping you get a clearer picture of your
-          financial health.
-        </p>
-      </div>
-    </div>
-  </div>
-</div>
-
   );
 }
 

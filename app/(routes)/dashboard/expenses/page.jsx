@@ -154,7 +154,7 @@ const handleRemoveExpense = async (categoryKey) => {
         </p>
 
         {/* Current Expense Situation Section */}
-        <div className="flex  sm:flex-row   justify-between items-center mb-6">
+        <div className="flex  sm:flex-row  2xl:px-24  justify-between items-center mb-6">
           <div>
             <div className="text-xl font-bold text-start text-gray-800 mb-2">
               Total Spending:{" "}

@@ -1,9 +1,9 @@
 'use client';
-import Image from "next/image";
 import React, { useEffect } from "react";
 import { LayoutGrid, PiggyBank, ReceiptText, ShieldCheck, X } from "lucide-react";
 import { usePathname } from "next/navigation";
 import Link from "next/link";
+import Image from "next/image";
 
 function SideNavbar({ isSidebarOpen, toggleSidebar }) {
   const menuList = [
@@ -20,7 +20,7 @@ function SideNavbar({ isSidebarOpen, toggleSidebar }) {
   }, [path]);
 
   return (
-    <div className= 'md:pt-16 shadow-lg'>
+    <div className="md:pt-16 shadow-lg">
       {/* Mobile Sidebar */}
       {isSidebarOpen && (
         <div className="fixed inset-0 z-50 flex md:hidden">
@@ -32,8 +32,9 @@ function SideNavbar({ isSidebarOpen, toggleSidebar }) {
               <X className="w-6 h-6" />
             </button>
 
+            {/* Logo for Mobile */}
             <div className="flex items-center p-5">
-              <Image src={"/logo.svg"} alt="logo" width={50} height={100} />
+              <Image src="/logo.svg" alt="logo" width={50} height={100} />
               <h1 className="text-blue-500 font-semibold italic ml-2">Expense</h1>
             </div>
 
@@ -60,13 +61,8 @@ function SideNavbar({ isSidebarOpen, toggleSidebar }) {
         </div>
       )}
 
-      {/* Sidebar for md+ devices */}
-      <div className="hidden md:block fixed h-screen w-64 p-5 border shadow-sm bg-white z-20">
-        <div className="flex items-center">
-          <Image src={"/logo.svg"} alt="logo" width={50} height={100} />
-          <h1 className="text-blue-500 font-semibold italic ml-2">Expense</h1>
-        </div>
-
+      {/* Sidebar for lg+ devices */}
+      <div className="hidden lg:block fixed h-screen w-64 p-5 border shadow-sm bg-white z-20">
         <div className="mt-5">
           {menuList.map((menu) => (
             <Link key={menu.id} href={menu.path}>

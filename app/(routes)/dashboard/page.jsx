@@ -103,8 +103,8 @@ function Page() {
 
   return (
     <div className="xl:px-8 2xl:px-16 min-h-screen">
-      <h1 className="font-medium text-2xl text-center mb-4 text-gray-700">
-        Hi, {userName ? userName : "Loading..."}! 😀
+      <h1 className="font-medium text-2xl mt-4 text-center mb-4 text-gray-700">
+        Wellcome to Dashboard! 😀
       </h1>
       <p className="text-center text-gray-600 mb-8">Here's your expense report:</p>
 

@@ -4,9 +4,9 @@ import { Menu } from "lucide-react";
 import Link from "next/link";
 import { FaUserCircle } from "react-icons/fa"; // User profile icon
 import { IoSettingsSharp, IoLogOutOutline } from "react-icons/io5"; // Settings and Logout icons
-import { Button } from "@/components/ui/button";
 import { useRouter } from "next/navigation";
-import { FaBell, FaBellSlash } from "react-icons/fa";
+import { FaBell } from "react-icons/fa";
+import Image from "next/image";
 
 function DashboardHeader({ toggleSidebar }) {
   const [isHovered, setIsHovered] = useState(false);
@@ -14,7 +14,7 @@ function DashboardHeader({ toggleSidebar }) {
   const [userInfo, setUserInfo] = useState(null);
   const [maintenanceMessage, setMaintenanceMessage] = useState(""); // State for storing maintenance message
   const router = useRouter();
-  const [isNotificationsOpen, setIsNotificationsOpen] = useState("");
+  const [isNotificationsOpen, setIsNotificationsOpen] = useState(false);
 
   // Fetch user info and maintenance message on mount
   useEffect(() => {
@@ -66,37 +66,47 @@ function DashboardHeader({ toggleSidebar }) {
 
   const getRoleIcon = (role) => {
     if (role === "admin") {
-      return <FaUserCircle className="w-6 h-6 mr-2" />;
+      return <FaUserCircle className="w-6 h-6 text-purple-600" />;
     }
-    return <FaUserCircle className="w-6 h-6 mr-2" />;
+    return <FaUserCircle className="w-6 h-6 text-blue-600" />;
   };
 
   return (
-    <div className="flex p-4 justify-between shadow shadow: md:justify-end fixed w-full bg-white z-30 top-0 left-0">
-      <button
-        onClick={toggleSidebar}
-        className="p-2 rounded-md bg-gray-100 hover:bg-gray-200 md:hidden"
-      >
-        <Menu className="w-6 h-6" />
-      </button>
+    <div className="flex p-4 2xl:px-16 justify-between shadow-md fixed w-full bg-white z-30 top-0 left-0">
+      {/* Logo for lg devices and above */}
+      <div className="hidden lg:flex items-center">
+        <Link href="/" className="flex items-center">
+          <Image src="/logo.svg" alt="logo" width={50} height={100} />
+          <h1 className="text-blue-600 font-semibold italic ml-2 text-xl">Expense</h1>
+        </Link>
+      </div>
+
+      {/* Menu Button for Mobile */}
+      <div className="flex items-center lg:hidden">
+        <button
+          onClick={toggleSidebar}
+          className="p-2 rounded-md bg-gray-100 hover:bg-gray-200 transition-all duration-300"
+        >
+          <Menu className="w-6 h-6" />
+        </button>
+      </div>
 
       {/* Container for Bell Icon and User Profile */}
       <div className="flex items-center space-x-4 md:space-x-6">
         {/* Bell Icon */}
         <div className="relative">
           <button
-            className="flex items-center bg-gray-100 text-gray-600 p-2 rounded-md hover:bg-gray-200"
+            className="flex items-center justify-center p-3 rounded-full bg-gray-100 text-gray-600 hover:bg-gray-200 transition-all duration-300"
             onClick={() => setIsNotificationsOpen(!isNotificationsOpen)} // Toggle popup
           >
-            <FaBell className="w-6 h-6 mr-2" /> {/* Bell Icon */}
-            
+            <FaBell className="w-6 h-6 text-blue-600" /> {/* Bell Icon */}
           </button>
 
           {isNotificationsOpen && ( // Show popup if isNotificationsOpen is true
-            <div className="absolute right-0 pt-5 z-40 bg-white rounded-lg shadow-xl border border-gray-200 w-60 transform transition-all duration-500 opacity-100 translate-y-0">
+            <div className="absolute right-0 pt-5 z-40 bg-white rounded-lg shadow-xl border border-gray-200 w-60 transform transition-all duration-300 opacity-100 translate-y-0">
               <div className="flex flex-col items-start py-4 px-6 space-y-3">
                 {maintenanceMessage ? (
-                  <div className="w-full flex items-center p-3 rounded-md hover:bg-gray-100">
+                  <div className="w-full flex items-center p-3 rounded-md hover:bg-gray-100 transition-all duration-300">
                     <span className="text-gray-700">{maintenanceMessage}</span>
                   </div>
                 ) : (
@@ -115,19 +125,16 @@ function DashboardHeader({ toggleSidebar }) {
           onMouseEnter={() => setIsHovered(true)}
           onMouseLeave={() => setIsHovered(false)}
         >
-          <button className="flex items-center bg-gray-100 text-gray-600 py-2 px-4 rounded-full hover:bg-gray-200">
+          <button className="flex items-center justify-center p-3 rounded-full bg-gray-100 text-gray-600 hover:bg-gray-200 transition-all duration-300">
             {userInfo ? (
               getRoleIcon(userInfo.role)
             ) : (
-              <FaUserCircle className="w-6 h-6 mr-2" />
+              <FaUserCircle className="w-6 h-6 text-blue-600" />
             )}
-            <span className="hidden md:inline">
-              {userInfo ? "" : "Profile"}
-            </span>
           </button>
 
           <div
-            className={`absolute right-0 pt-5 z-40 bg-white rounded-lg shadow-xl border border-gray-200 w-60 transform transition-all duration-500 ${
+            className={`absolute right-0 pt-5 z-40 bg-white rounded-lg shadow-xl border border-gray-200 w-60 transform transition-all duration-300 ${
               isHovered
                 ? "opacity-100 translate-y-0"
                 : "opacity-0 -translate-y-5 pointer-events-none"
@@ -136,26 +143,26 @@ function DashboardHeader({ toggleSidebar }) {
             <div className="flex flex-col items-start py-4 px-6 space-y-3">
               <div
                 onClick={() => setIsProfileOpen(true)}
-                className="w-full flex items-center hover:bg-gray-100 p-3 rounded-md cursor-pointer"
+                className="w-full gap-2 flex items-center hover:bg-gray-100 p-3 rounded-md cursor-pointer transition-all duration-300"
               >
                 {userInfo ? (
                   getRoleIcon(userInfo.role)
                 ) : (
-                  <FaUserCircle className="w-5 h-5 mr-3 text-gray-600" />
+                  <FaUserCircle className="w-5 h-5 mr-3 text-blue-600" />
                 )}
                 <span className="text-gray-700">View Profile</span>
               </div>
 
-              <div className="w-full hover:bg-gray-100 p-3 rounded-md cursor-pointer">
+              <div className="w-full hover:bg-gray-100 p-3 rounded-md cursor-pointer transition-all duration-300">
                 <Link href="/dashboard/upgrade" className="flex items-center">
-                  <IoSettingsSharp className="w-5 h-5 mr-3 text-gray-600" />
+                  <IoSettingsSharp className="w-5 h-5 mr-3 text-blue-600" />
                   <span className="text-gray-700">Settings</span>
                 </Link>
               </div>
 
               <div
                 onClick={handleLogout}
-                className="w-full flex items-center hover:bg-red-100 p-3 rounded-md cursor-pointer"
+                className="w-full flex items-center hover:bg-red-100 p-3 rounded-md cursor-pointer transition-all duration-300"
               >
                 <IoLogOutOutline className="w-5 h-5 mr-3 text-red-500" />
                 <span className="text-red-500">Logout</span>
@@ -175,7 +182,7 @@ function DashboardHeader({ toggleSidebar }) {
               </h3>
               <button
                 onClick={() => setIsProfileOpen(false)}
-                className="text-gray-500 hover:text-gray-700"
+                className="text-gray-500 hover:text-gray-700 transition-all duration-300"
               >
                 ✖
               </button>

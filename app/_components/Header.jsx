@@ -65,67 +65,71 @@ function Header() {
 
   return (
     <>
-  {/* Toast Container */}
-  <ToastContainer />
+      {/* Toast Container */}
+      <ToastContainer />
 
-  <div
-    className={`p-5 flex justify-between items-center bg-white shadow-lg border-b fixed top-0 left-0 w-full z-50 transition-all duration-300 ease-in-out px-5 lg:px-24  2xl:px-64 ${
-      isSticky ? "bg-opacity-90 backdrop-blur-md shadow-xl py-4" : "py-6"
-    }`}
-  >
-    {/* Logo Section */}
-    <div className="flex items-center">
-      <Image src="/logo.svg" alt="logo" width={50} height={100} />
-      <h1 className="text-blue-500 font-semibold italic ml-2 text-xl sm:text-2xl">Expense</h1>
-    </div>
-
-    {/* Sign Up Button with Pop-Up */}
-    <div
-      className="relative"
-      onMouseEnter={() => setIsHovered(true)}
-      onMouseLeave={() => setIsHovered(false)}
-    >
-      {/* Main Sign-Up Button */}
-      <Button variant="default" className="px-6 py-2 text-base font-medium rounded-md shadow-md bg-gradient-to-r from-[#5C5CFF] to-[#2E2EFF] text-white hover:bg-blue-600 transition duration-300">
-        Sign Up
-      </Button>
-
-      {/* Pop-Up */}
       <div
-        className={`absolute right-0 pt-5  z-40 bg-white rounded-md shadow-xl border border-gray-200 w-72 transform transition-all duration-500 ${
-          isHovered
-            ? "opacity-100 translate-y-0"
-            : "opacity-0 -translate-y-5 pointer-events-none"
+        className={`p-4 flex justify-between items-center bg-white shadow-lg border-b fixed top-0 left-0 w-full z-50 transition-all duration-300 ease-in-out px-6 lg:px-24 2xl:px-64 ${
+          isSticky ? "bg-opacity-95 backdrop-blur-md shadow-xl py-3" : "py-4"
         }`}
       >
-        <div className="flex flex-col items-center py-6 space-y-4 p-2">
-          {/* Title */}
-          <h1 className="font-semibold text-md text-gray-800">Choose Your Role</h1>
+        {/* Logo Section */}
+        <div>
+          <Link href={'/'} className='flex items-center'>
+            <Image src="/logo.svg" alt="logo" width={50} height={100} />
+            <h1 className="text-blue-600 font-semibold italic ml-2 text-xl sm:text-2xl">Expense</h1>
+          </Link>
+        </div>
 
-          {/* User Sign-Up Option */}
-          <div className="w-full">
-            <Link href="/sign-up">
-              <Button className="w-full flex items-center justify-start px-4 py-3 rounded-md bg-blue-50 hover:bg-blue-100 transition">
-                <UserIcon className="h-6 w-6 text-blue-500 mr-3" />
-                <span className="text-gray-700 font-medium text-sm">Sign Up as a User</span>
-              </Button>
-            </Link>
+        {/* Sign Up Button with Pop-Up */}
+        <div
+          className="relative"
+          onMouseEnter={() => setIsHovered(true)}
+          onMouseLeave={() => setIsHovered(false)}
+        >
+          {/* Main Sign-Up Button */}
+          <Button
+            variant="default"
+            className="px-6 py-2 text-base font-medium rounded-md shadow-md bg-gradient-to-r from-[#5C5CFF] to-[#2E2EFF] text-white hover:from-[#4A4AFF] hover:to-[#1E1EFF] transition duration-300"
+          >
+            Sign Up
+          </Button>
 
-            {/* Admin Sign-Up Option */}
-            <Button
-              onClick={handleGuestLogin} // Handle guest login
-              className="w-full flex items-center mt-4 justify-start px-4 py-3 rounded-md bg-red-50 hover:bg-red-100 transition"
-            >
-              <ShieldCheckIcon className="h-6 w-6 text-red-500 mr-3" />
-              <span className="text-gray-700 font-medium text-sm">Log in as Guest</span>
-            </Button>
+          {/* Pop-Up */}
+          <div
+            className={`absolute right-0 pt-5 z-40 bg-white rounded-lg shadow-xl border border-gray-100 w-80 transform transition-all duration-300 ${
+              isHovered
+                ? "opacity-100 translate-y-0"
+                : "opacity-0 -translate-y-5 pointer-events-none"
+            }`}
+          >
+            <div className="flex flex-col items-center py-6 space-y-4 p-4">
+              {/* Title */}
+              <h1 className="font-semibold text-lg text-gray-800">Choose Your Role</h1>
+
+              {/* User Sign-Up Option */}
+              <div className="w-full">
+                <Link href="/sign-up">
+                  <Button className="w-full flex items-center justify-start px-4 py-3 rounded-md bg-blue-50 hover:bg-blue-100 transition duration-200">
+                    <UserIcon className="h-6 w-6 text-blue-500 mr-3" />
+                    <span className="text-gray-700 font-medium text-sm">Sign Up as a User</span>
+                  </Button>
+                </Link>
+
+                {/* Admin Sign-Up Option */}
+                <Button
+                  onClick={handleGuestLogin} // Handle guest login
+                  className="w-full flex items-center mt-4 justify-start px-4 py-3 rounded-md bg-red-50 hover:bg-red-100 transition duration-200"
+                >
+                  <ShieldCheckIcon className="h-6 w-6 text-red-500 mr-3" />
+                  <span className="text-gray-700 font-medium text-sm">Log in as Guest</span>
+                </Button>
+              </div>
+            </div>
           </div>
         </div>
       </div>
-    </div>
-  </div>
-</>
-
+    </>
   );
 }
 
