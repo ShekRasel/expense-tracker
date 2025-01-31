@@ -91,9 +91,9 @@ function DashboardLayout({ children }) {
       <SideNavbar isSidebarOpen={isSidebarOpen} toggleSidebar={toggleSidebar} />
       
       {/* Main content */}
-      <div className="flex-1 md:ml-64"> {/* Give space for the sidebar */}
+      <div className="flex-1 lg:ml-60"> {/* Give space for the sidebar */}
         <DashboardHeader toggleSidebar={toggleSidebar} />
-        <div className="pt-20 px-5">{children}</div>
+        <div className="pt-20 lg:px-5">{children}</div>
       </div>
 
       {/* Feedback Button */}

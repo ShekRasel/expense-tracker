@@ -14,9 +14,7 @@ function SideNavbar({ isSidebarOpen, toggleSidebar }) {
 
   const path = usePathname();
 
-  useEffect(() => {
-    console.log(path); // Logs the current route to the console
-  }, [path]);
+  
 
   return (
     <div className="md:pt-16 ">

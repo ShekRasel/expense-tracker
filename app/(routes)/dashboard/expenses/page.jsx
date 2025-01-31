@@ -141,71 +141,74 @@ function ExpenseReport() {
   const isOverBudget = totalSpending > expenseGoal;
 
   return (
-    <div className="min-h-screen bg-gradient-to-br  p-4">
-      <div className="max-w-7xl mx-auto bg-white rounded-xl shadow-2xl p-6">
-        <ToastContainer position="top-right" autoClose={3000} />
-        <h1 className="text-3xl md:text-4xl font-bold text-gray-900 mb-6 md:text-center">
-          Expense Report
-        </h1>
-        <p className="text-gray-600 mb-8 md:text-center text-lg">
-          View your detailed expense report along with total spending.
-        </p>
-
-        {/* Current Expense Situation Section */}
-        <div className="flex flex-col md:flex-row justify-between items-center mb-8">
-          <div className="text-center md:text-left">
-            <div className="text-xl md:text-2xl font-bold text-gray-800 mb-2">
-              Total Spending:{" "}
-              <span className="text-blue-600">BDT {totalSpending}</span>
+    <div className="min-h-screen lg:p-4">
+    <div className="max-w-7xl mx-auto bg-white rounded-xl shadow-2xl px-12 py-6">
+      <ToastContainer position="top-right" autoClose={3000} />
+      <h1 className="text-3xl md:text-4xl font-bold text-gray-900 mb-6 text-center">
+        Expense Report
+      </h1>
+      <p className="text-gray-600 mb-8 text-center text-lg">
+        View your detailed expense report along with total spending.
+      </p>
+  
+      {/* Current Expense Situation Section */}
+      <div className="flex flex-col md:flex-row justify-between items-center mb-8">
+        <div className="text-center md:text-left">
+          <div className="text-xl md:text-2xl font-bold text-gray-800 mb-2">
+            Total Spending:{" "}
+            <span className="text-blue-600">BDT {totalSpending}</span>
+          </div>
+          {expenseGoal === 0 ? (
+            <p className="text-red-500 font-semibold">
+              Please add a budget to track your expenses.
+            </p>
+          ) : isOverBudget ? (
+            <div className="text-red-500 font-semibold">
+              You have exceeded your expense goal! <br />
+              <span className="text-sm text-gray-600 mt-2">
+                Expense Goal: BDT {expenseGoal}
+              </span>
             </div>
-            {expenseGoal === 0 ? (
-              <p className="text-red-500 font-semibold">
-                Please add a budget to track your expenses.
-              </p>
-            ) : isOverBudget ? (
-              <div className="text-red-500 font-semibold">
-                You have exceeded your expense goal! <br />
-                <span className="text-sm text-gray-600 mt-2">
-                  Expense Goal: BDT {expenseGoal}
-                </span>
-              </div>
-            ) : (
-              <div className="text-green-600 font-semibold">
-                You are within the budget! <br />
-                <span className="text-sm text-gray-600 mt-2">
-                  Expense Goal: BDT {expenseGoal}
-                </span>
-              </div>
-            )}
-          </div>
-
-          {/* Report Action Buttons */}
-          <div className="flex flex-col sm:flex-row gap-4 mt-6 md:mt-0">
-            <Button
-              onClick={fetchExpenseReport}
-              className="bg-blue-600 hover:bg-blue-700 text-white py-2 px-4 md:py-3 md:px-6 rounded-lg flex items-center gap-2"
-            >
-              <FaArrowLeft />
-              Refresh Report
-            </Button>
-            <Button
-              onClick={exportToExcel}
-              className="bg-green-600 hover:bg-green-700 text-white py-2 px-4 md:py-3 md:px-6 rounded-lg flex items-center gap-2"
-            >
-              <FaFileExport />
-              Export to Excel
-            </Button>
-          </div>
+          ) : (
+            <div className="text-green-600 font-semibold">
+              You are within the budget! <br />
+              <span className="text-sm text-gray-600 mt-2">
+                Expense Goal: BDT {expenseGoal}
+              </span>
+            </div>
+          )}
         </div>
-
-        {loading ? (
-          <div className="text-center text-blue-600 font-semibold">
-            Loading...
-          </div>
-        ) : error ? (
-          <div className="text-center text-red-600 font-semibold">{error}</div>
-        ) : report && report.data ? (
-          <div className="w-full overflow-x-auto scrollable-table">
+  
+        {/* Report Action Buttons */}
+        <div className="flex flex-col sm:flex-row gap-4 mt-6 md:mt-0">
+          <Button
+            onClick={fetchExpenseReport}
+            className="bg-blue-600 hover:bg-blue-700 text-white py-2 px-4 md:py-3 md:px-6 rounded-lg flex items-center gap-2"
+          >
+            <FaArrowLeft />
+            Refresh Report
+          </Button>
+          <Button
+            onClick={exportToExcel}
+            className="bg-green-600 hover:bg-green-700 text-white py-2 px-4 md:py-3 md:px-6 rounded-lg flex items-center gap-2"
+          >
+            <FaFileExport />
+            Export to Excel
+          </Button>
+        </div>
+      </div>
+    </div>
+  
+    <div className="mt-10 shadow-lg rounded-lg border">
+      {loading ? (
+        <div className="text-center text-blue-600 font-semibold">
+          Loading...
+        </div>
+      ) : error ? (
+        <div className="text-center text-red-600 font-semibold">{error}</div>
+      ) : report && report.data ? (
+        <div className="w-full overflow-x-auto">
+          <div className="overflow-x-auto">
             <table className="w-full text-center border-collapse shadow-lg">
               <thead>
                 <tr className="bg-gray-200">
@@ -305,13 +308,14 @@ function ExpenseReport() {
               </tbody>
             </table>
           </div>
-        ) : (
-          <div className="text-center text-gray-500 font-semibold">
-            No data available.
-          </div>
-        )}
-      </div>
+        </div>
+      ) : (
+        <div className="text-center text-gray-500 font-semibold">
+          No data available.
+        </div>
+      )}
     </div>
+  </div>
   );
 }
 
