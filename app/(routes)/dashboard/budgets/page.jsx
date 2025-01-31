@@ -73,7 +73,7 @@ function Page() {
   };
 
   return (
-    <div className="p-8 bg-gradient-to-br from-gray-50 to-gray-100 min-h-screen">
+    <div className="p-8 bg-gradient-to-br  min-h-screen">
       {/* Header Section */}
       <div className="mb-8 text-center">
         <h1 className="text-4xl font-bold text-gray-900">Manage Your Budgets</h1>
@@ -83,7 +83,7 @@ function Page() {
       <div className="space-y-8">
         {/* Add Budget Box */}
         <div
-          className="bg-white shadow-lg rounded-xl p-8 flex justify-center items-center cursor-pointer hover:shadow-xl transition-all transform hover:scale-105"
+          className="bg-white shadow-lg border rounded-xl p-8 flex justify-center items-center cursor-pointer hover:shadow-xl transition-all transform hover:scale-105"
           onClick={openModal}
         >
           <div className="flex flex-col items-center">

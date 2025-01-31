@@ -33,13 +33,7 @@ const Page = () => {
         <div className="container mx-auto px-6 text-center">
           <h2 className="text-4xl font-bold mb-10">How It Works</h2>
           <div className="flex justify-center">
-            <iframe
-              className="w-full lg:w-3/4 h-96 rounded-lg shadow-2xl"
-              src="https://www.youtube.com/embed/dQw4w9WgXcQ"
-              title="How It Works"
-              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-              allowFullScreen
-            ></iframe>
+          <iframe width="660" height="315" src="https://www.youtube.com/embed/T9TD1WJQ4DY?si=gQmLREj8ILLQ6Q2U" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
           </div>
         </div>
       </section>

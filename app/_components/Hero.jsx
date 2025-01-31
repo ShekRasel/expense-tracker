@@ -67,7 +67,7 @@ function Hero() {
           <div className="w-full sm:w-1/2 md:w-1/3 animate-fade-in delay-200">
             <div className="p-6 bg-white rounded-xl shadow-lg hover:shadow-2xl transition-all duration-300 ease-in-out">
               <Image
-                src="/dashboard.jpg"
+                src="/dashboard1.png"
                 width={400}
                 height={250}
                 alt="Feature 1"
@@ -87,7 +87,7 @@ function Hero() {
           <div className="w-full sm:w-1/2 md:w-1/3 animate-fade-in delay-300">
             <div className="p-6 bg-white rounded-xl shadow-lg hover:shadow-2xl transition-all duration-300 ease-in-out">
               <Image
-                src="/dashboard.jpg"
+                src="/dashboard2.png"
                 width={400}
                 height={250}
                 alt="Feature 2"
@@ -107,7 +107,7 @@ function Hero() {
           <div className="w-full sm:w-1/2 md:w-1/3 animate-fade-in delay-400">
             <div className="p-6 bg-white rounded-xl shadow-lg hover:shadow-2xl transition-all duration-300 ease-in-out">
               <Image
-                src="/dashboard.jpg"
+                src="/dashboard3.png"
                 width={400}
                 height={250}
                 alt="Feature 3"

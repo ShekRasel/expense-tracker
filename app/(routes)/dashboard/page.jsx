@@ -101,7 +101,7 @@ function Page() {
   }
 
   return (
-    <div className="xl:px-8 2xl:px-16 min-h-screen bg-gradient-to-br from-gray-50 to-gray-100">
+    <div className="xl:px-8 2xl:px-16 min-h-screen bg-gradient-to-br">
       {/* Welcome Section */}
       <div className="pt-8 pb-6 text-center">
         <h1 className="font-bold text-3xl text-gray-800 mb-2">Welcome to Your Dashboard,😀</h1>

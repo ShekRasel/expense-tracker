@@ -10,7 +10,6 @@ function SideNavbar({ isSidebarOpen, toggleSidebar }) {
     { id: 1, name: "Dashboard", icon: LayoutGrid, path: "/dashboard" },
     { id: 2, name: "Budgets", icon: PiggyBank, path: "/dashboard/budgets" },
     { id: 3, name: "Expenses", icon: ReceiptText, path: "/dashboard/expenses" },
-    { id: 4, name: "Upgrade", icon: ShieldCheck, path: "/dashboard/upgrade" },
   ];
 
   const path = usePathname();
@@ -20,7 +19,7 @@ function SideNavbar({ isSidebarOpen, toggleSidebar }) {
   }, [path]);
 
   return (
-    <div className="md:pt-16 shadow-lg">
+    <div className="md:pt-16 ">
       {/* Mobile Sidebar */}
       {isSidebarOpen && (
         <div className="fixed inset-0 z-50 flex md:hidden">
@@ -62,7 +61,7 @@ function SideNavbar({ isSidebarOpen, toggleSidebar }) {
       )}
 
       {/* Sidebar for lg+ devices */}
-      <div className="hidden lg:block fixed h-screen w-64 p-5  shadow-sm bg-white z-20">
+      <div className="hidden lg:block fixed h-screen w-64 p-5 border shadow-sm bg-white z-20">
         <div className="mt-5">
           {menuList.map((menu) => (
             <Link key={menu.id} href={menu.path}>

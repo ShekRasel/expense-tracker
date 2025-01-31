@@ -69,7 +69,7 @@ function Header() {
       <ToastContainer />
 
       <div
-        className={`p-4 flex justify-between items-center bg-white shadow-lg border-b fixed top-0 left-0 w-full z-50 transition-all duration-300 ease-in-out px-6 lg:px-24 2xl:px-64 ${
+        className={`md:px-4 flex justify-between items-center bg-white shadow-lg border-b fixed top-0 left-0 w-full z-50 transition-all duration-300 ease-in-out px-6 lg:px-24 2xl:px-64 ${
           isSticky ? "bg-opacity-95 backdrop-blur-md shadow-xl py-3" : "py-4"
         }`}
       >
@@ -90,7 +90,7 @@ function Header() {
           {/* Main Sign-Up Button */}
           <Button
             variant="default"
-            className="px-6 py-2 text-base font-medium rounded-md shadow-md bg-gradient-to-r from-[#5C5CFF] to-[#2E2EFF] text-white hover:from-[#4A4AFF] hover:to-[#1E1EFF] transition duration-300"
+            className="px-6 py-2 text-base font-medium rounded-md shadow-md bg-gradient-to-r from-[#576afb] to-[#2626f7] text-white hover:from-[#4A4AFF] hover:to-[#1E1EFF] transition duration-300"
           >
             Sign Up
           </Button>
@@ -110,19 +110,19 @@ function Header() {
               {/* User Sign-Up Option */}
               <div className="w-full">
                 <Link href="/sign-up">
-                  <Button className="w-full flex items-center justify-start px-4 py-3 rounded-md bg-blue-50 hover:bg-blue-100 transition duration-200">
+                  <Button className="w-full flex items-center justify-start px-4 py-3 rounded-md bg-blue-100 hover:bg-blue-200 transition duration-200">
                     <UserIcon className="h-6 w-6 text-blue-500 mr-3" />
-                    <span className="text-gray-700 font-medium text-sm">Sign Up as a User</span>
+                    <span className="text-black font-medium text-sm">Get Started as a User</span>
                   </Button>
                 </Link>
 
                 {/* Admin Sign-Up Option */}
                 <Button
                   onClick={handleGuestLogin} // Handle guest login
-                  className="w-full flex items-center mt-4 justify-start px-4 py-3 rounded-md bg-red-50 hover:bg-red-100 transition duration-200"
+                  className="w-full flex items-center mt-4 justify-start px-4 py-3 rounded-md bg-red-100 hover:bg-red-200 transition duration-200"
                 >
                   <ShieldCheckIcon className="h-6 w-6 text-red-500 mr-3" />
-                  <span className="text-gray-700 font-medium text-sm">Log in as Guest</span>
+                  <span className="text-gray-700 font-medium text-sm">Explore as a Guest</span>
                 </Button>
               </div>
             </div>

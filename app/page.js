@@ -12,15 +12,8 @@ import Footer from "./_components/Footer";
 export default function Home() {
   return (
     <div>
-      {/* Include Header */}
-     
-
-      {/* Include Hero */}
-      <Hero />
-
       
-
-      {/* Add the ToastContainer */}
+      <Hero />
       <ToastContainer />
     </div>
   );

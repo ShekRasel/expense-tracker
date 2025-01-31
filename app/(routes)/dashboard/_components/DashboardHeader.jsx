@@ -95,29 +95,30 @@ function DashboardHeader({ toggleSidebar }) {
       <div className="flex items-center space-x-4 md:space-x-6">
         {/* Bell Icon */}
         <div className="relative">
-          <button
-            className="flex items-center justify-center p-3 rounded-full bg-gray-100 text-gray-600 hover:bg-gray-200 transition-all duration-300"
-            onClick={() => setIsNotificationsOpen(!isNotificationsOpen)} // Toggle popup
-          >
-            <FaBell className="w-6 h-6 text-blue-600" /> {/* Bell Icon */}
-          </button>
+  <button
+    className="flex items-center justify-center p-3 rounded-full bg-gray-100 text-gray-600 hover:bg-gray-200 transition-all duration-300"
+    onClick={() => setIsNotificationsOpen(!isNotificationsOpen)} // Toggle popup
+  >
+    <FaBell className="w-6 h-6 text-blue-600" /> {/* Bell Icon */}
+  </button>
 
-          {isNotificationsOpen && ( // Show popup if isNotificationsOpen is true
-            <div className="absolute right-0 pt-5 z-40 bg-white rounded-lg shadow-xl border border-gray-200 w-60 transform transition-all duration-300 opacity-100 translate-y-0">
-              <div className="flex flex-col items-start py-4 px-6 space-y-3">
-                {maintenanceMessage ? (
-                  <div className="w-full flex items-center p-3 rounded-md hover:bg-gray-100 transition-all duration-300">
-                    <span className="text-gray-700">{maintenanceMessage}</span>
-                  </div>
-                ) : (
-                  <div className="w-full flex items-center p-3 rounded-md text-gray-600">
-                    No maintenance updates.
-                  </div>
-                )}
-              </div>
-            </div>
-          )}
-        </div>
+  {isNotificationsOpen && ( // Show popup if isNotificationsOpen is true
+    <div className="absolute right-0 pt-5 z-40 bg-white rounded-lg shadow-xl border border-gray-200 w-60 transform transition-all duration-300 opacity-100 translate-y-0">
+      <div className="flex flex-col items-start py-4 px-6 space-y-3 border-l-4 border-blue-500">
+        {maintenanceMessage ? (
+          <div className="w-full flex items-center p-3 rounded-md bg-blue-50 border border-blue-300 text-blue-700 shadow-sm">
+            <span>{maintenanceMessage}</span>
+          </div>
+        ) : (
+          <div className="w-full flex items-center p-3 rounded-md text-gray-600 bg-gray-50 border border-gray-300 shadow-sm">
+            No maintenance updates.
+          </div>
+        )}
+      </div>
+    </div>
+  )}
+</div>
+
 
         {/* User Profile Button */}
         <div
@@ -141,6 +142,9 @@ function DashboardHeader({ toggleSidebar }) {
             }`}
           >
             <div className="flex flex-col items-start py-4 px-6 space-y-3">
+
+              
+
               <div
                 onClick={() => setIsProfileOpen(true)}
                 className="w-full gap-2 flex items-center hover:bg-gray-100 p-3 rounded-md cursor-pointer transition-all duration-300"
@@ -153,12 +157,7 @@ function DashboardHeader({ toggleSidebar }) {
                 <span className="text-gray-700">View Profile</span>
               </div>
 
-              <div className="w-full hover:bg-gray-100 p-3 rounded-md cursor-pointer transition-all duration-300">
-                <Link href="/dashboard/upgrade" className="flex items-center">
-                  <IoSettingsSharp className="w-5 h-5 mr-3 text-blue-600" />
-                  <span className="text-gray-700">Settings</span>
-                </Link>
-              </div>
+              
 
               <div
                 onClick={handleLogout}

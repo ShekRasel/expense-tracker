@@ -141,7 +141,7 @@ function ExpenseReport() {
   const isOverBudget = totalSpending > expenseGoal;
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100 p-4">
+    <div className="min-h-screen bg-gradient-to-br  p-4">
       <div className="max-w-7xl mx-auto bg-white rounded-xl shadow-2xl p-6">
         <ToastContainer position="top-right" autoClose={3000} />
         <h1 className="text-3xl md:text-4xl font-bold text-gray-900 mb-6 md:text-center">
@@ -206,7 +206,7 @@ function ExpenseReport() {
           <div className="text-center text-red-600 font-semibold">{error}</div>
         ) : report && report.data ? (
           <div className="w-full overflow-x-auto scrollable-table">
-            <table className="w-full min-w-[800px] text-center border-collapse shadow-lg">
+            <table className="w-full text-center border-collapse shadow-lg">
               <thead>
                 <tr className="bg-gray-200">
                   <th className="px-4 py-3 font-medium text-gray-700">ID</th>
