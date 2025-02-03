@@ -7,6 +7,7 @@ import { UserIcon, ShieldCheckIcon } from "@heroicons/react/solid";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { toast, ToastContainer } from "react-toastify";
+import { LoginIcon } from '@heroicons/react/solid';
 import "react-toastify/dist/ReactToastify.css";
 
 function Header() {
@@ -109,22 +110,31 @@ function Header() {
 
               {/* User Sign-Up Option */}
               <div className="w-full">
-                <Link href="/sign-up">
-                  <Button className="w-full flex items-center justify-start px-4 py-3 rounded-md bg-blue-100 hover:bg-blue-200 transition duration-200">
-                    <UserIcon className="h-6 w-6 text-blue-500 mr-3" />
-                    <span className="text-black font-medium text-sm">Get Started as a User</span>
-                  </Button>
-                </Link>
+  <Link href="/sign-up">
+    <Button className="w-full flex items-center justify-start px-4 py-3 rounded-md bg-blue-100 hover:bg-blue-200 transition duration-200">
+      <UserIcon className="h-6 w-6 text-blue-500 mr-3" />
+      <span className="text-black font-medium text-sm">Get Started as a User</span>
+    </Button>
+  </Link>
 
-                {/* Admin Sign-Up Option */}
-                <Button
-                  onClick={handleGuestLogin} // Handle guest login
-                  className="w-full flex items-center mt-4 justify-start px-4 py-3 rounded-md bg-red-100 hover:bg-red-200 transition duration-200"
-                >
-                  <ShieldCheckIcon className="h-6 w-6 text-red-500 mr-3" />
-                  <span className="text-gray-700 font-medium text-sm">Explore as a Guest</span>
-                </Button>
-              </div>
+  <Button
+    onClick={handleGuestLogin} // Handle guest login
+    className="w-full flex items-center mt-4 justify-start px-4 py-3 rounded-md bg-red-100 hover:bg-red-200 transition duration-200"
+  >
+    <ShieldCheckIcon className="h-6 w-6 text-red-500 mr-3" />
+    <span className="text-gray-700 font-medium text-sm">Explore as a Guest</span>
+  </Button>
+
+  <Link href="/sign-in">
+    <Button className="w-full flex items-center mt-4 justify-start px-4 py-3 rounded-md bg-green-100 hover:bg-green-200 transition duration-200">
+      <LoginIcon className="h-6 w-6 text-green-500 mr-3" />
+      <span className="text-black font-medium text-sm">Sign In</span>
+    </Button>
+  </Link>
+</div>
+
+
+
             </div>
           </div>
         </div>
