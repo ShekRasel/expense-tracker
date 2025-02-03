@@ -18,7 +18,8 @@ function ExpenseReport() {
   const [categoryInput, setCategoryInput] = useState("");
   const [priceInput, setPriceInput] = useState("");
 
-  const fetchExpenseReport = async () => {
+
+  const fetchExpenseReport2 = async () => {
     setLoading(true);
     setError(null);
     try {
@@ -30,13 +31,52 @@ function ExpenseReport() {
           },
         }
       );
+
       setReport(response.data);
+      
+  
+      console.log(response.data);
     } catch (err) {
       setError("Failed to fetch expense report. Please try again later.");
     } finally {
       setLoading(false);
     }
-  };
+   };
+
+
+ const fetchExpenseReport = async () => {
+  setLoading(true);
+  setError(null);
+  try {
+    const response = await axios.get(
+      "http://localhost:3000/expense/user/expensereport",
+      {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("authToken")}`,
+        },
+      }
+    );
+    // Sort the categories in alphabetical order
+    const sortedData = Object.entries(response.data.data).sort(([categoryA], [categoryB]) =>
+      categoryA.localeCompare(categoryB) // Compare categories alphabetically
+    );
+
+    // Set the sorted data to the report state
+    setReport((prevReport) => ({
+      ...prevReport,
+      data: Object.fromEntries(sortedData), // Convert back to an object after sorting
+    }));
+
+    console.log(response.data);
+  } catch (err) {
+    setError("Failed to fetch expense report. Please try again later.");
+  } finally {
+    setLoading(false);
+  }
+ };
+
+
+
 
   const exportToExcel = () => {
     const expenseData = Object.entries(report.data).map(
@@ -133,7 +173,7 @@ function ExpenseReport() {
   };
 
   useEffect(() => {
-    fetchExpenseReport();
+    fetchExpenseReport2();
   }, []);
 
   const totalSpending = report?.totalSpending || 0;
@@ -181,6 +221,7 @@ function ExpenseReport() {
   
         {/* Report Action Buttons */}
         <div className="flex flex-col sm:flex-row gap-4 mt-6 md:mt-0">
+
           <Button
             onClick={fetchExpenseReport}
             className="bg-blue-600 hover:bg-blue-700 text-white py-2 px-4 md:py-3 md:px-6 rounded-lg flex items-center gap-2"
@@ -188,6 +229,7 @@ function ExpenseReport() {
             <FaArrowLeft />
             Refresh Report
           </Button>
+
           <Button
             onClick={exportToExcel}
             className="bg-green-600 hover:bg-green-700 text-white py-2 px-4 md:py-3 md:px-6 rounded-lg flex items-center gap-2"
