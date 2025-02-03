@@ -1,6 +1,6 @@
 import { Button } from "@/components/ui/button";
 import Image from "next/image";
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import Link from "next/link";
 import Slider from "react-slick"; // Importing a slider library
 
@@ -17,26 +17,7 @@ const sliderSettings = {
 
 function Hero() {
   const [currentPage, setCurrentPage] = useState(1);
-  const [feedbacks, setFeedbacks] = useState([]);
   const totalPages = 3;
-
-  // Fetch feedback data from the API
-  useEffect(() => {
-    const fetchFeedbacks = async () => {
-      try {
-        const response = await fetch(
-          "http://localhost:3000/feedback/getFeedbacks"
-        );
-        const data = await response.json();
-        setFeedbacks(data);
-        console.log(data);
-      } catch (error) {
-        console.error("Error fetching feedbacks:", error);
-      }
-    };
-
-    fetchFeedbacks();
-  }, []);
 
   return (
     <section className="pt-20">
@@ -172,40 +153,39 @@ function Hero() {
           </p>
         </div>
 
-        <div className="max-w-3xl mx-auto  rounded-xl shadow-lg p-8 animate-fade-in delay-200">
+        <div className="max-w-3xl mx-auto bg-white rounded-xl shadow-lg p-8 animate-fade-in delay-200">
           <Slider {...sliderSettings}>
-            {feedbacks.map((feedback, index) => {
-              const date = new Date(feedback.datePosted);
-              const formattedDate = date.toLocaleDateString("en-US", {
-                weekday: "short", // Day of the week
-                year: "numeric", // Full year
-                month: "short", // Month abbreviation
-                day: "numeric", // Day of the month
-              });
+            {/* Testimonial 1 */}
+            <div className="text-center p-6">
+              <p className="text-xl text-gray-600 mb-4">
+                "This app has completely transformed the way I budget my money.
+                It's so easy to use, and the zero-based budgeting method has
+                really helped me stay on track."
+              </p>
+              <p className="text-2xl font-bold text-gray-900">Robin</p>
+              <p className="text-sm text-gray-600">Freelancer</p>
+            </div>
 
-              const formattedTime = date.toLocaleTimeString("en-US", {
-                hour: "2-digit",
-                minute: "2-digit",
-                hour12: true, // For 12-hour format (AM/PM)
-              });
+            {/* Testimonial 2 */}
+            <div className="text-center p-6">
+              <p className="text-xl text-gray-600 mb-4">
+                "I've tried so many budgeting apps, but none of them offer the
+                simplicity and ease of use that this one does. Highly
+                recommend!"
+              </p>
+              <p className="text-2xl font-bold text-gray-900">Arif</p>
+              <p className="text-sm text-gray-600">Small Business Owner</p>
+            </div>
 
-              return (
-                <div
-                  key={index}
-                  className="text-center p-6  transition-all duration-300 ease-in-out rounded-lg  transform hover:scale-105"
-                >
-                  <p className="text-xl sm:text-2xl text-gray-700 mb-6 italic font-medium">
-                    "{feedback.feedback}"
-                  </p>
-                  <p className="text-2xl font-semibold text-blue-600 mb-2">
-                    {feedback.id}
-                  </p>
-                  <p className="text-sm text-gray-500 italic">
-                    {formattedDate}, {formattedTime}
-                  </p>
-                </div>
-              );
-            })}
+            {/* Testimonial 3 */}
+            <div className="text-center p-6">
+              <p className="text-xl text-gray-600 mb-4">
+                "With this app, I feel in control of my finances like never
+                before. It's incredibly user-friendly and visually appealing."
+              </p>
+              <p className="text-2xl font-bold text-gray-900">Rasel</p>
+              <p className="text-sm text-gray-600">Teacher</p>
+            </div>
           </Slider>
         </div>
       </div>
@@ -214,16 +194,15 @@ function Hero() {
       <div className="flex justify-center items-center py-10 space-x-2">
         {Array.from({ length: totalPages }, (_, index) => index + 1).map((page) => (
           <Link key={page} href={`/page${page}`}>
-          <button
+            <button
               className={`px-4 py-2 border rounded-lg text-lg font-semibold transition-all duration-300 ease-in-out ${
                 page === currentPage
                   ? "bg-blue-600 text-white shadow-lg"
                   : "bg-gray-200 text-gray-800 hover:bg-gray-300"
-            }`}
-            onClick={() => setCurrentPage(index + 1)}
-          >
+              }`}
+            >
               {page}
-          </button>
+            </button>
           </Link>
         ))}
         <h1 className="mt-4">....</h1>
