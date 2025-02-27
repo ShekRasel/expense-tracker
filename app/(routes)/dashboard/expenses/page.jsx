@@ -24,7 +24,7 @@ function ExpenseReport() {
     setError(null);
     try {
       const response = await axios.get(
-        "http://localhost:3000/expense/user/expensereport",
+        "https://expense-backend-t0sr.onrender.com/expense/user/expensereport",
         {
           headers: {
             Authorization: `Bearer ${localStorage.getItem("authToken")}`,
@@ -49,7 +49,7 @@ function ExpenseReport() {
   setError(null);
   try {
     const response = await axios.get(
-      "http://localhost:3000/expense/user/expensereport",
+      "https://expense-backend-t0sr.onrender.com/expense/user/expensereport",
       {
         headers: {
           Authorization: `Bearer ${localStorage.getItem("authToken")}`,
@@ -108,7 +108,7 @@ function ExpenseReport() {
     try {
       if (editingCategory) {
         await axios.patch(
-          `http://localhost:3000/expense/category/rename/${editCategory}/${categoryInput}`,
+          `https://expense-backend-t0sr.onrender.com/expense/category/rename/${editCategory}/${categoryInput}`,
           {},
           {
             headers: {
@@ -124,7 +124,7 @@ function ExpenseReport() {
         };
 
         await axios.patch(
-          "http://localhost:3000/expense/category/price",
+          "https://expense-backend-t0sr.onrender.com/expense/category/price",
           updatedExpense,
           {
             headers: {
@@ -155,7 +155,7 @@ function ExpenseReport() {
   const handleRemoveExpense = async (categoryKey) => {
     try {
       await axios.patch(
-        `http://localhost:3000/expense/category/delete/${categoryKey}`,
+        `https://expense-backend-t0sr.onrender.com/expense/category/delete/${categoryKey}`,
         {},
         {
           headers: {

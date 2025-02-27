@@ -21,7 +21,7 @@ function DashboardHeader({ toggleSidebar }) {
     const token = localStorage.getItem("authToken");
     if (token) {
       // Fetch user info from backend
-      fetch("http://localhost:3000/user/profile", {
+      fetch("https://expense-backend-t0sr.onrender.com/user/profile", {
         method: "GET",
         headers: {
           Authorization: `Bearer ${token}`,
@@ -41,7 +41,7 @@ function DashboardHeader({ toggleSidebar }) {
         });
 
       // Fetch maintenance alert
-      fetch("http://localhost:3000/maintenance/alert", {
+      fetch("https://expense-backend-t0sr.onrender.com/maintenance/alert", {
         method: "GET",
         headers: {
           Authorization: `Bearer ${token}`,

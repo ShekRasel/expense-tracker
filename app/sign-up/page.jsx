@@ -67,7 +67,7 @@ const SignUp = () => {
 
     try {
       const res = await fetch(
-        "http://localhost:3000/users/auth/user/register",
+        "https://expense-backend-t0sr.onrender.com/users/auth/user/register",
         {
           method: "POST",
           headers: {

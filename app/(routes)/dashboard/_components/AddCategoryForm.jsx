@@ -24,7 +24,7 @@ const AddCategoryForm = ({ onCategoryAdded }) => {
         return;
       }
 
-      const response = await fetch(`http://localhost:3000/expense/user/${category}/${price}`, {
+      const response = await fetch(`https://expense-backend-t0sr.onrender.com/expense/user/${category}/${price}`, {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",

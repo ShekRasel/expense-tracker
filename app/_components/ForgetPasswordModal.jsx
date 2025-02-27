@@ -18,7 +18,7 @@ const ForgetPasswordModal = ({ isOpen, onClose }) => {
 
     setLoading(true);
     try {
-      const res = await fetch('http://localhost:3000/user/forgetpassword', {
+      const res = await fetch('https://expense-backend-t0sr.onrender.com/user/forgetpassword', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -44,7 +44,7 @@ const ForgetPasswordModal = ({ isOpen, onClose }) => {
 
     setLoading(true);
     try {
-      const res = await fetch('http://localhost:3000/user/updatepassword', {
+      const res = await fetch('https://expense-backend-t0sr.onrender.com/user/updatepassword', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

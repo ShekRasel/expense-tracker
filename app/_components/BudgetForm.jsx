@@ -55,7 +55,7 @@ export default function BudgetForm() {
     };
 
     try {
-      const response = await axios.post('http://localhost:3000/guest/budget', updatedFormData);
+      const response = await axios.post('https://expense-backend-t0sr.onrender.com/guest/budget', updatedFormData);
       toast.success('Budget submitted successfully!');
       setSubmittedData(response.data);
       setIsPopupVisible(true); // Show the popup smoothly
