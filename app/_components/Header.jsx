@@ -18,7 +18,7 @@ function Header() {
   // Handle "Log in as Guest" API call
   const handleGuestLogin = async () => {
     try {
-      const response = await fetch("http://localhost:3000/auth/joinasguest", {
+      const response = await fetch("https://expense-backend-t0sr.onrender.com", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
