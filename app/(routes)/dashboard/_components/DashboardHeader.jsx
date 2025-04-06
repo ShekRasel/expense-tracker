@@ -41,21 +41,24 @@ function DashboardHeader({ toggleSidebar }) {
         });
 
       // Fetch maintenance alert
-      fetch("https://expense-backend-t0sr.onrender.com/maintenance/alert", {
-        method: "GET",
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      })
-        .then((response) => response.json())
-        .then((data) => {
-          if (data.message) {
-            setMaintenanceMessage(data.message);
-          }
+      setTimeout(() => {
+        
+        fetch("https://expense-backend-t0sr.onrender.com/maintenance/alert", {
+          method: "GET",
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
         })
-        .catch((error) => {
-          console.error("Error fetching maintenance alert:", error);
-        });
+          .then((response) => response.json())
+          .then((data) => {
+            if (data.message) {
+              setMaintenanceMessage(data.message);
+            }
+          })
+          .catch((error) => {
+            console.log("Error fetching maintenance alert:", error);
+          });
+      }, 6000);
     }
   }, []);
 
