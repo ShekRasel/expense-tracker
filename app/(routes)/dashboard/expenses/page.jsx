@@ -34,8 +34,6 @@ function ExpenseReport() {
 
       setReport(response.data);
       
-  
-      console.log(response.data);
     } catch (err) {
       setError("Failed to fetch expense report. Please try again later.");
     } finally {
@@ -67,7 +65,6 @@ function ExpenseReport() {
       data: Object.fromEntries(sortedData), // Convert back to an object after sorting
     }));
 
-    console.log(response.data);
   } catch (err) {
     setError("Failed to fetch expense report. Please try again later.");
   } finally {

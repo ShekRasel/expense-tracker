@@ -27,7 +27,6 @@ function Header() {
 
       if (response.ok) {
         const data = await response.json();
-        console.log(data);
         toast.success("Successfully logged in as guest!", {
           position: "top-right",
         });
