@@ -7,9 +7,11 @@ import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Image from "next/image";
 import ForgetPasswordModal from '../_components/ForgetPasswordModal';
+import { Loader2 } from "lucide-react";
 
 const SignIn = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [laoding, setLoading] = useState(false);
   const [formData, setFormData] = useState({
     email: "",
     password: "",
@@ -26,6 +28,7 @@ const SignIn = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setLoading(true);
 
     if (!formData.email || !formData.password) {
       toast.error("Both fields are required");
@@ -55,6 +58,8 @@ const SignIn = () => {
       }, 2000);
     } catch (error) {
       toast.error(error.message || "Invalid credentials, please try again.");
+    }finally{
+      setLoading(false);
     }
   };
 
@@ -131,7 +136,9 @@ const SignIn = () => {
               type="submit"
               className="w-full px-4 py-3 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition transform duration-300 hover:scale-105"
             >
-              Sign In
+             {laoding ? <p className="flex justify-center items-center">
+               <Loader2 className=" animate-spin text-green-600"/> <span className="px-4">Processing</span>
+             </p> : <span>Sign In</span>}
             </button>
           </form>
 
