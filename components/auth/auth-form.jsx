@@ -1,5 +1,5 @@
 "use client";
-import { useState } from "react";
+import { useRef, useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import {
@@ -12,6 +12,7 @@ import {
 import { toast } from "react-toastify";
 import { apiRequest } from "@/lib/api";
 import ResetPassword from "./reset-password";
+import DemoAccount from "./demo-account";
 export const passwordPattern =
   /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$/;
 export default function AuthForm({ register = false }) {
@@ -19,6 +20,9 @@ export default function AuthForm({ register = false }) {
   const [reset, setReset] = useState(false);
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const submitButton = useRef(null);
   const router = useRouter();
   async function submit(event) {
     event.preventDefault();
@@ -91,6 +95,17 @@ export default function AuthForm({ register = false }) {
             ? "A fresh start for you and your finances."
             : "Your money story continues here."}
         </p>
+        {!register && (
+          <DemoAccount
+            disabled={busy}
+            onUse={(account) => {
+              setEmail(account.email);
+              setPassword(account.password);
+              setError("");
+              submitButton.current?.focus();
+            }}
+          />
+        )}
         <form onSubmit={submit} className="form-stack">
           {register && (
             <>
@@ -122,6 +137,8 @@ export default function AuthForm({ register = false }) {
               required
               type="email"
               name="email"
+              value={email}
+              onChange={(event) => setEmail(event.target.value)}
               autoComplete="email"
               placeholder="you@example.com"
             />
@@ -132,6 +149,8 @@ export default function AuthForm({ register = false }) {
               <input
                 required
                 name="password"
+                value={password}
+                onChange={(event) => setPassword(event.target.value)}
                 type={visible ? "text" : "password"}
                 autoComplete={register ? "new-password" : "current-password"}
                 placeholder={
@@ -167,7 +186,11 @@ export default function AuthForm({ register = false }) {
               {error}
             </p>
           )}
-          <button disabled={busy} className="btn btn-primary btn-full">
+          <button
+            ref={submitButton}
+            disabled={busy}
+            className="btn btn-primary btn-full"
+          >
             {busy ? "Please wait…" : register ? "Create account" : "Sign in"}
             {!busy && <ArrowRight size={17} />}
           </button>
