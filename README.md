@@ -19,7 +19,11 @@ A local, Git-ignored `.env` has been created:
 NEXT_PUBLIC_API_URL=https://expense-backend-mu-livid.vercel.app
 ```
 
-For a fresh checkout, copy `.env.example` to `.env`. Restart the dev server after editing it or `next.config.mjs`. Configure the URL before building in your hosting environment. Browser requests go to the same-origin `/api/backend/*` path; Next.js rewrites them to this backend URL. This avoids browser CORS restrictions on local and preview frontend origins. Run the frontend with a Next.js server or a compatible hosting platform; the proxy requires a server and does not work with a static-only export.
+For a fresh checkout, copy `.env.example` to `.env`. Restart the dev server after editing it or `next.config.mjs`. Browser requests go to the same-origin `/api/backend/*` path; Next.js rewrites them to this backend URL. This avoids browser CORS restrictions on local and preview frontend origins. Run the frontend with a Next.js server or a compatible hosting platform; the proxy requires a server and does not work with a static-only export.
+
+### Vercel configuration
+
+The local `.env` is Git-ignored and is not included in a Git-based Vercel deployment. The proxy defaults to `https://expense-backend-mu-livid.vercel.app` when the environment variable is missing or blank, so a fresh deployment can build successfully. To override it, set `NEXT_PUBLIC_API_URL` in your Vercel project's environment variables for the relevant environments and redeploy. The backend address is public configuration, not a secret.
 
 ## Folder structure
 
